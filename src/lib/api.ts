@@ -1,16 +1,14 @@
 "use server";
 
+import { SessionInfo } from "@/types";
+import { PrismaClient } from "@prisma/client";
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 
-import * as db from "./db";
-
-export type SessionInfo = {
-	userId: string;
-	expires: Date;
-};
+const client = new PrismaClient();
 
 const key = new TextEncoder().encode(process.env.SECRET);
 
@@ -29,8 +27,11 @@ export const login = async (formData: FormData) => {
 		})
 		.safeParse({ userId: formData.get("userId") });
 
-	const exists = await db.existsUser(parsed.data.userId);
-	if (!exists) {
+	const user = await client.user.findFirst({
+		where: { userId: parsed.data.userId },
+	});
+
+	if (user == null) {
 		return null;
 	}
 
@@ -57,7 +58,9 @@ export async function logout() {
 }
 
 export async function register() {
-	const { userId } = await db.createUser();
+	const userId = uuidv4();
+
+	await client.user.create({ data: { userId } });
 
 	const expires = new Date(Date.now() + 10 * 1000);
 	const session = await encrypt({
@@ -78,26 +81,27 @@ export async function getSession() {
 	return await decrypt(session);
 }
 
-export async function updateSession(request: NextRequest) {
+export const updateSession = async (request: NextRequest) => {
 	const session = request.cookies.get("session")?.value;
+
 	if (!session) return;
 
 	const parsed = await decrypt(session);
-	// const exists = await db.existsUser(parsed.userId);
-	// if (!exists) return await logout();
+	const res = NextResponse.next();
 
 	parsed.expires = new Date(Date.now() + 10 * 60 * 1000);
-	const res = NextResponse.next();
+
 	res.cookies.set({
 		name: "session",
 		value: await encrypt(parsed),
 		httpOnly: true,
 		expires: parsed.expires,
 	});
-	return res;
-}
 
-export const createCourse = async (formData: FormData) => {
+	return res;
+};
+
+export const createCourse = async (prevState, formData: FormData) => {
 	const parsed = z
 		.object({
 			code: z.string().length(6),
@@ -106,7 +110,9 @@ export const createCourse = async (formData: FormData) => {
 		.safeParse({ code: formData.get("code"), name: formData.get("name") });
 
 	if (!parsed.success) {
+		console.log("Could not parse good");
 		console.log(parsed.error);
+
 		return null; // TODO: Implement errors
 	}
 
@@ -117,27 +123,58 @@ export const createCourse = async (formData: FormData) => {
 		return null;
 	}
 
-	return await db.createCourse(
-		session.userId,
-		parsed.data.code,
-		parsed.data.name
-	);
+	await client.course.create({
+		data: {
+			code: parsed.data.code,
+			name: parsed.data.name,
+			userId: session.userId,
+		},
+	});
 };
 
 export const getCourses = async () => {
 	const session = await getSession();
 
-	if (!session) return null;
+	if (!session) {
+		console.log("Get courses no session");
+		return null;
+	}
 
-	console.log("Get courses no session");
+	return await getCoursesByUserId(session.userId);
+};
 
-	return await db.getCourses(session.userId);
+export const getCoursesByUserId = async (userId: string) => {
+	const courses = await client.course.findMany({
+		where: { userId },
+		select: { name: true, code: true },
+	});
+
+	return courses;
 };
 
 export const deleteCourse = async (code: string) => {
+	// TODO: needs validation
 	const session = await getSession();
 
 	if (!session) return null;
 
-	return await db.deleteCourse(session.userId, code);
+	const course = await client.course.findFirst({
+		where: { userId: session.userId, code },
+	});
+
+	if (course) {
+		await client.course.delete({ where: { id: course.id } });
+	}
+};
+
+export const getUser = async (userId: string) => {
+	const user = await client.user.findFirst({
+		where: { userId },
+	});
+
+	if (user == null) {
+		return null;
+	}
+
+	return user;
 };

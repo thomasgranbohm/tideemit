@@ -1,23 +1,12 @@
 // https://nextjs.org/docs/app/getting-started/route-handlers-and-middleware#caching
 
-import { getCourses, getUser } from "@/lib/db";
+import { getCoursesByUserId, getUser } from "@/lib/api";
 import axios from "axios";
-import { z } from "zod";
 import ical from "ical-generator";
-import { rename } from "fs";
-
-type TimeEditData = {
-	columnheaders: string[];
-	reservations: {
-		id: string;
-		startDate: Date;
-		endDate: Date;
-		columns: string[];
-	}[];
-};
+import { z } from "zod";
 
 export const GET = async (
-	request: Request,
+	_: Request,
 	{ params }: { params: Promise<{ userId: string }> }
 ) => {
 	const { userId } = await params;
@@ -69,7 +58,7 @@ export const GET = async (
 	const activity_index = columnheaders.indexOf("Undervisningstyp");
 	const location_index = columnheaders.indexOf("Lokal");
 
-	const renamed_courses = await getCourses(userId);
+	const renamed_courses = await getCoursesByUserId(userId);
 
 	const map_renamed = new Map(
 		renamed_courses.map(({ code, name }) => [code, name])
