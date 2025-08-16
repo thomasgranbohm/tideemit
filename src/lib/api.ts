@@ -1,9 +1,11 @@
 "use server";
 
-import { SessionInfo } from "@/types";
+import { FormStateResponse, SessionInfo } from "@/types";
+import { CourseValidation } from "@/validators";
 import { PrismaClient } from "@prisma/client";
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
@@ -76,7 +78,7 @@ export async function getSession() {
 	const cookieStore = await cookies();
 	const session = cookieStore.get("session")?.value;
 
-	if (!session) return null;
+	if (!session) return;
 
 	return await decrypt(session);
 }
@@ -101,26 +103,37 @@ export const updateSession = async (request: NextRequest) => {
 	return res;
 };
 
-export const createCourse = async (prevState, formData: FormData) => {
-	const parsed = z
-		.object({
-			code: z.string().length(6),
-			name: z.string().min(5).max(128),
-		})
-		.safeParse({ code: formData.get("code"), name: formData.get("name") });
-
-	if (!parsed.success) {
-		console.log("Could not parse good");
-		console.log(parsed.error);
-
-		return null; // TODO: Implement errors
-	}
-
+export const createCourse = async (
+	prevState,
+	formData: FormData
+): Promise<FormStateResponse<{ code: string; name: string }>> => {
 	const session = await getSession();
 
 	if (!session) {
-		console.log("No session");
-		return null;
+		return redirect("/");
+	}
+
+	const parsed = CourseValidation.safeParse({
+		code: formData.get("code"),
+		name: formData.get("name"),
+	});
+
+	if (!parsed.success) {
+		return {
+			success: false,
+			message: "Validation error",
+			errors: z.flattenError(parsed.error).fieldErrors,
+		};
+	}
+
+	const coursesCount = await client.course.count({
+		where: { userId: session.userId },
+	});
+	if (coursesCount >= 10) {
+		return {
+			success: false,
+			message: "User has reached max courses",
+		};
 	}
 
 	await client.course.create({
@@ -130,6 +143,8 @@ export const createCourse = async (prevState, formData: FormData) => {
 			userId: session.userId,
 		},
 	});
+
+	return { success: true, message: "Course created successfully!" };
 };
 
 export const getCourses = async () => {
