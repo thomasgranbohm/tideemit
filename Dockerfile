@@ -16,8 +16,6 @@ COPY . .
 # Generate Prisma client
 RUN npx prisma generate
 
-RUN npx prisma migrate deploy
-
 # Build Next.js app
 RUN npm run build
 
@@ -29,13 +27,13 @@ ENV NODE_ENV=production
 ENV PORT=3000
 
 # Copy built files and node_modules
-COPY --from=builder /app/.env ./.env
-COPY --from=builder /app/next.config.ts ./next.config.ts
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/next.config.ts ./next.config.ts
+COPY --from=builder /app/.env ./.env
 
 EXPOSE 3000
 
