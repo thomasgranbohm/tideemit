@@ -3,6 +3,7 @@
 import { getCoursesByUserId, getUser } from "@/lib/api";
 import axios from "axios";
 import ical from "ical-generator";
+import { DateTime } from "luxon";
 import { z } from "zod";
 
 export const GET = async (
@@ -20,7 +21,9 @@ export const GET = async (
 	const resp = await axios.get(user.scheduleLink.replace(".ics", ".json"));
 
 	const makeDate = (date, time) =>
-		new Date(Date.parse(`${date} ${time}`)).toISOString();
+		DateTime.fromMillis(Date.parse(`${date} ${time}`), {
+			zone: "Europe/Berlin",
+		}).toString();
 
 	const parsed = await z
 		.object({
@@ -28,8 +31,8 @@ export const GET = async (
 			reservations: z
 				.object({
 					id: z.number(),
-					startDate: z.iso.datetime(),
-					endDate: z.iso.datetime(),
+					startDate: z.iso.datetime({ offset: true }),
+					endDate: z.iso.datetime({ offset: true }),
 					columns: z.string().array(),
 				})
 				.array(),
@@ -47,10 +50,14 @@ export const GET = async (
 		});
 
 	if (!parsed.success) {
+		console.log(parsed);
 		return Response.error();
 	}
 
-	const calendar = ical({ name: "Schedule", prodId: "https://tideemit.net" });
+	const calendar = ical({
+		name: "Schedule",
+		prodId: process.env.NEXT_PUBLIC_URL,
+	});
 
 	const { columnheaders, reservations } = parsed.data;
 
