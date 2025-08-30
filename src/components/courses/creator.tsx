@@ -4,8 +4,11 @@ import { createCourse } from "@/lib/api";
 import { FormStateResponse } from "@/types";
 import { CourseValidation, CourseValidationType } from "@/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, Callout, Spinner } from "@radix-ui/themes";
 import { startTransition, useActionState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
 const CourseCreator = () => {
 	const [state, action, pending] = useActionState<
@@ -97,15 +100,18 @@ const CourseCreator = () => {
 				</ul>
 			)}
 			{state.success == false && state.message && (
-				<p className="text-red-500">{state.message}</p>
+				<Callout.Root color="red">
+					<Callout.Icon>
+						<ExclamationTriangleIcon />
+					</Callout.Icon>
+
+					<Callout.Text>{state.message}</Callout.Text>
+				</Callout.Root>
 			)}
-			<button
-				className="block p-2 border rounded cursor-pointer bg-gray-200  not-disabled:hover:bg-gray-300 disabled:cursor-not-allowed"
-				type="submit"
-				disabled={!isValid || pending}
-			>
-				{!pending ? "Create course" : "Creating course..."}
-			</button>
+			<Button type="submit" disabled={!isValid || pending} color="green">
+				<Spinner loading={pending} />
+				Create course
+			</Button>
 		</form>
 	);
 };

@@ -1,7 +1,7 @@
 "use server";
 
-import { FormStateResponse, SessionInfo } from "@/types";
-import { CourseValidation } from "@/validators";
+import { CourseInfo, FormStateResponse, SessionInfo } from "@/types";
+import { CodeValidation, CourseValidation } from "@/validators";
 import { PrismaClient } from "@prisma/client";
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
@@ -106,7 +106,7 @@ export const updateSession = async (request: NextRequest) => {
 export const createCourse = async (
 	prevState,
 	formData: FormData
-): Promise<FormStateResponse<{ code: string; name: string }>> => {
+): Promise<FormStateResponse<CourseInfo>> => {
 	const session = await getSession();
 
 	if (!session) {
@@ -167,14 +167,15 @@ export const getCoursesByUserId = async (userId: string) => {
 	return courses;
 };
 
-export const deleteCourse = async (code: string) => {
-	// TODO: needs validation
+export const deleteCourse = async (formData: FormData) => {
+	// TODO: Does this need error handling?
 	const session = await getSession();
-
 	if (!session) return null;
 
+	const parsed = CodeValidation.safeParse(formData.get("code"));
+
 	const course = await client.course.findFirst({
-		where: { userId: session.userId, code },
+		where: { userId: session.userId, code: parsed.data },
 	});
 
 	if (course) {

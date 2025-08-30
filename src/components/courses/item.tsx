@@ -2,32 +2,47 @@
 
 import { deleteCourse } from "@/lib/api";
 import { CourseInfo } from "@/types";
-import { useActionState } from "react";
+import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
+import { Button, Flex, Spinner, Table } from "@radix-ui/themes";
+import { useFormStatus } from "react-dom";
 
-export const InlineCourse = ({ code, name }: CourseInfo) => {
-	const [, action, pending] = useActionState(
-		() => deleteCourse(code),
-		void 0
-	);
+const DeleteButton = () => {
+	const { pending } = useFormStatus();
 
 	return (
-		<tr className="p-2 border rounded">
-			<td className="p-2">
+		<Button type="submit" disabled={pending} color="red">
+			<Spinner loading={pending}>
+				<TrashIcon />
+			</Spinner>
+			Delete
+		</Button>
+	);
+};
+
+export const InlineCourse = ({ code, name }: CourseInfo) => {
+	return (
+		<Table.Row className="p-2 border rounded">
+			<Table.RowHeaderCell className="p-2">
 				<p className="font-mono font-bold">{code}</p>
-			</td>
-			<td className="p-2">{name}</td>
-			<td className="p-2">
-				<form action={action}>
-					<input type="hidden" name="code" value={code} />
-					<button
-						className="p-1 rounded border bg-gray-200 hover:bg-red-500 hover:text-white cursor-pointer"
-						disabled={pending}
-						type="submit"
-					>
-						{!pending ? "Delete" : "Deleting..."}
-					</button>
-				</form>
-			</td>
-		</tr>
+			</Table.RowHeaderCell>
+			<Table.Cell className="p-2">{name}</Table.Cell>
+			<Table.Cell className="p-2">
+				<Flex gap="2">
+					<form>
+						<input type="hidden" name="code" value={code} />
+						<Button type="submit" color="green">
+							<Spinner>
+								<Pencil1Icon />
+							</Spinner>
+							Rename
+						</Button>
+					</form>
+					<form action={deleteCourse}>
+						<input type="hidden" name="code" value={code} />
+						<DeleteButton />
+					</form>
+				</Flex>
+			</Table.Cell>
+		</Table.Row>
 	);
 };

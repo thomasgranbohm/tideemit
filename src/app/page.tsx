@@ -20,7 +20,7 @@ export default async function Home() {
 						<input type="text" name="userId" id="userId" />
 						<button type="submit">Login</button>
 					</form>
-					<form
+					{/* <form
 						action={async () => {
 							"use server";
 							await register();
@@ -28,7 +28,7 @@ export default async function Home() {
 						}}
 					>
 						<button type="submit">Register</button>
-					</form>
+					</form> */}
 				</div>
 			)}
 		</div>
