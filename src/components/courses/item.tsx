@@ -31,7 +31,7 @@ export const InlineCourse = ({ code, name }: CourseInfo) => {
 					<form>
 						<input type="hidden" name="code" value={code} />
 						<Button type="submit" color="green">
-							<Spinner>
+							<Spinner loading={false}>
 								<Pencil1Icon />
 							</Spinner>
 							Rename

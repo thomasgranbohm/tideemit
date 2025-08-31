@@ -3,10 +3,15 @@ import { CourseList } from "@/components/courses/list";
 import { ScheduleLink } from "@/components/schedule-link";
 import { getSession } from "@/lib/api";
 import { Container } from "@radix-ui/themes";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 const SchedulePage = async () => {
 	const session = await getSession();
+
+	if (!session) {
+		return redirect("/");
+	}
 
 	return (
 		<Container size="3">
