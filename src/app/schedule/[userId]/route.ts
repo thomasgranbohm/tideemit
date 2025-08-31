@@ -6,6 +6,23 @@ import { DateTime } from "luxon";
 import ical from "ical-generator";
 import { z } from "zod";
 
+const createDate = (date, time) =>
+	DateTime.fromSQL(`${date} ${time}`, {
+		zone: process.env.TIMEZONE,
+	})
+		.toUTC()
+		.toISO();
+
+const createSummary = (activity, course_name) => {
+	const s = [activity];
+
+	if (course_name.length > 0) {
+		s.push(course_name);
+	}
+
+	return s.join(" - ");
+};
+
 export const GET = async (
 	_: Request,
 	{ params }: { params: Promise<{ userId: string }> }
@@ -20,19 +37,16 @@ export const GET = async (
 
 	const resp = await axios.get(user.scheduleLink.replace(".ics", ".json"));
 
-	const makeDate = (date, time) =>
-		DateTime.fromMillis(Date.parse(`${date} ${time}`))
-			.setZone("UTC")
-			.toISO();
-
 	const parsed = await z
 		.object({
 			columnheaders: z.string().array(),
 			reservations: z
 				.object({
 					id: z.number(),
-					startDate: z.iso.datetime(),
-					endDate: z.iso.datetime(),
+					starttime: z.iso.time(),
+					endtime: z.iso.time(),
+					startdate: z.iso.date(),
+					enddate: z.iso.date(),
 					columns: z.string().array(),
 				})
 				.array(),
@@ -42,15 +56,16 @@ export const GET = async (
 			reservations: resp.data.reservations.map(
 				({ id, startdate, starttime, enddate, endtime, columns }) => ({
 					id: parseInt(id),
-					startDate: makeDate(startdate, starttime),
-					endDate: makeDate(enddate, endtime),
+					starttime,
+					endtime,
+					startdate,
+					enddate,
 					columns,
 				})
 			),
 		});
 
 	if (!parsed.success) {
-		console.log(parsed);
 		return Response.error();
 	}
 
@@ -64,6 +79,8 @@ export const GET = async (
 	const course_index = columnheaders.indexOf("Kurs");
 	const activity_index = columnheaders.indexOf("Undervisningstyp");
 	const location_index = columnheaders.indexOf("Lokal");
+	const comment_index = columnheaders.indexOf("Information till student");
+	const map_index = columnheaders.indexOf("Kartlänk");
 
 	const renamed_courses = await getCoursesByUserId(userId);
 
@@ -72,7 +89,7 @@ export const GET = async (
 	);
 
 	for (const event of reservations) {
-		const { columns, endDate, id, startDate } = event;
+		const { columns, id, enddate, endtime, startdate, starttime } = event;
 
 		const course_code = columns[course_index];
 		const codes = new Set(course_code.split(", "));
@@ -82,14 +99,14 @@ export const GET = async (
 			overlap.size == 1
 				? map_renamed.get(Array.from(overlap).pop())
 				: course_code;
-
 		calendar.createEvent({
-			start: startDate,
-			end: endDate,
-			// timezone: "Europe/Stockholm",
-			summary: `${columns[activity_index]} - ${course_name}`,
-			location: columns[location_index],
 			id,
+			start: createDate(startdate, starttime),
+			end: createDate(enddate, endtime),
+			summary: createSummary(columns[activity_index], course_name),
+			location: columns[location_index],
+			description: columns[comment_index],
+			url: columns[map_index],
 		});
 	}
 
