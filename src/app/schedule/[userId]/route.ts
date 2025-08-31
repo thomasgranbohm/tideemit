@@ -3,7 +3,6 @@
 import { getCoursesByUserId, getUser } from "@/lib/api";
 import axios from "axios";
 import ical from "ical-generator";
-import { DateTime } from "luxon";
 import { z } from "zod";
 
 export const GET = async (
@@ -21,9 +20,7 @@ export const GET = async (
 	const resp = await axios.get(user.scheduleLink.replace(".ics", ".json"));
 
 	const makeDate = (date, time) =>
-		DateTime.fromMillis(Date.parse(`${date} ${time}`), {
-			zone: "Europe/Berlin",
-		}).toString();
+		new Date(Date.parse(`${date} ${time}`)).toISOString();
 
 	const parsed = await z
 		.object({
@@ -31,8 +28,8 @@ export const GET = async (
 			reservations: z
 				.object({
 					id: z.number(),
-					startDate: z.iso.datetime({ offset: true }),
-					endDate: z.iso.datetime({ offset: true }),
+					startDate: z.iso.datetime(),
+					endDate: z.iso.datetime(),
 					columns: z.string().array(),
 				})
 				.array(),
@@ -86,6 +83,7 @@ export const GET = async (
 		calendar.createEvent({
 			start: startDate,
 			end: endDate,
+			timezone: "Europe/Stockholm",
 			summary: `${columns[activity_index]} - ${course_name}`,
 			location: columns[location_index],
 			id,
