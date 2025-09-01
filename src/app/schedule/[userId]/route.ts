@@ -6,23 +6,6 @@ import { DateTime } from "luxon";
 import ical from "ical-generator";
 import { z } from "zod";
 
-const createDate = (date, time) =>
-	DateTime.fromSQL(`${date} ${time}`, {
-		zone: process.env.TIMEZONE,
-	})
-		.toUTC()
-		.toISO();
-
-const createSummary = (activity, course_name) => {
-	const s = [activity];
-
-	if (course_name.length > 0) {
-		s.push(course_name);
-	}
-
-	return s.join(" - ");
-};
-
 export const GET = async (
 	_: Request,
 	{ params }: { params: Promise<{ userId: string }> }
@@ -81,12 +64,43 @@ export const GET = async (
 	const location_index = columnheaders.indexOf("Lokal");
 	const comment_index = columnheaders.indexOf("Information till student");
 	const map_index = columnheaders.indexOf("Kartlänk");
+	const free_group_index = columnheaders.indexOf("Fria grupper");
 
 	const renamed_courses = await getCoursesByUserId(userId);
 
 	const map_renamed = new Map(
 		renamed_courses.map(({ code, name }) => [code, name])
 	);
+
+	const createDate = (date, time) =>
+		DateTime.fromSQL(`${date} ${time}`, {
+			zone: process.env.TIMEZONE,
+		})
+			.toUTC()
+			.toISO();
+
+	const createSummary = (activity, course_name) => {
+		const s = [activity];
+
+		if (course_name.length > 0) {
+			s.push(course_name);
+		}
+
+		return s.join(" - ");
+	};
+
+	const createDescription = (comment, free_group) => {
+		const description = [];
+
+		if (free_group?.length > 0) {
+			description.push(free_group);
+		}
+		if (comment?.length > 0) {
+			description.push(comment);
+		}
+
+		return description.join("\n");
+	};
 
 	for (const event of reservations) {
 		const { columns, id, enddate, endtime, startdate, starttime } = event;
@@ -99,13 +113,17 @@ export const GET = async (
 			overlap.size == 1
 				? map_renamed.get(Array.from(overlap).pop())
 				: course_code;
+
 		calendar.createEvent({
 			id,
 			start: createDate(startdate, starttime),
 			end: createDate(enddate, endtime),
 			summary: createSummary(columns[activity_index], course_name),
 			location: columns[location_index],
-			description: columns[comment_index],
+			description: createDescription(
+				columns[comment_index],
+				columns[free_group_index]
+			),
 			url: columns[map_index],
 		});
 	}
