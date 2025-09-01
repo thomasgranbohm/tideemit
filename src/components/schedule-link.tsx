@@ -30,7 +30,7 @@ export const ScheduleLink = ({ userId }: { userId: string }) => {
 		<div className="relative">
 			<input
 				ref={inputRef}
-				className="block p-4 outline box-border rounded font-mono font-co w-full "
+				className="block p-4 outline box-border rounded font-mono font-co w-full text-gray-500"
 				type="text"
 				value={`${process.env.NEXT_PUBLIC_URL}/schedule/${userId}`}
 				disabled
@@ -44,7 +44,7 @@ export const ScheduleLink = ({ userId }: { userId: string }) => {
 			<Toast.Root
 				open={open}
 				onOpenChange={setOpen}
-				className="fixed right-4 bottom-4 shadow p-4 outline outline-gray-400 rounded font-medium"
+				className="fixed right-4 bottom-4 shadow p-4 outline outline-gray-400 rounded font-medium bg-white"
 			>
 				<Toast.Title className="flex items-center">
 					<CheckCircledIcon

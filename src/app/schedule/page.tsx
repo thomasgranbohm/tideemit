@@ -3,8 +3,13 @@ import { CourseList } from "@/components/courses/list";
 import { ScheduleLink } from "@/components/schedule-link";
 import { getSession } from "@/lib/api";
 import { Container } from "@radix-ui/themes";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+	title: "Skapa schema - TideEmit",
+};
 
 const SchedulePage = async () => {
 	const session = await getSession();

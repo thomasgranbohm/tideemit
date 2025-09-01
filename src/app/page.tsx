@@ -1,5 +1,11 @@
-import { getSession, login, register } from "@/lib/api";
+import { getSession, login } from "@/lib/api";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+	title: "TideEmit",
+	description: "För att TimeEdit suger",
+};
 
 export default async function Home() {
 	const session = await getSession();
