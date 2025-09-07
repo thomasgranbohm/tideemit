@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Ubuntu_Sans, Ubuntu_Sans_Mono } from "next/font/google";
 import localFont from "next/font/local";
-import { Toast } from "radix-ui";
 
 import { Footer } from "@/components/footer";
 
@@ -84,13 +82,10 @@ export default async function RootLayout({
 			<body
 				className={`${swedenSans.variable} ${ubuntuMono.variable} ${ubuntuSans.variable} antialiased`}
 			>
-				<Toast.Provider swipeDirection="right">
-					<div className="relative min-h-screen grid grid-rows-[1fr_auto]">
-						<main>{children}</main>
-						<Footer />
-					</div>
-					<Toast.Viewport />
-				</Toast.Provider>
+				<div className="relative min-h-screen grid grid-rows-[1fr_auto]">
+					<main>{children}</main>
+					<Footer />
+				</div>
 			</body>
 		</html>
 	);

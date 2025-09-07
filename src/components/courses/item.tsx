@@ -2,47 +2,26 @@
 
 import { deleteCourse } from "@/actions";
 import { CourseInfo } from "@/types";
-import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
-import { Button, Flex, Spinner, Table } from "@radix-ui/themes";
-import { useFormStatus } from "react-dom";
-
-const DeleteButton = () => {
-	const { pending } = useFormStatus();
-
-	return (
-		<Button type="submit" disabled={pending} color="red">
-			<Spinner loading={pending}>
-				<TrashIcon />
-			</Spinner>
-			Delete
-		</Button>
-	);
-};
+import { TrashIcon } from "@radix-ui/react-icons";
 
 export const InlineCourse = ({ code, name }: CourseInfo) => {
 	return (
-		<Table.Row className="p-2 border rounded">
-			<Table.RowHeaderCell className="p-2">
-				<p className="font-mono font-bold">{code}</p>
-			</Table.RowHeaderCell>
-			<Table.Cell className="p-2">{name}</Table.Cell>
-			<Table.Cell className="p-2">
-				<Flex gap="2">
-					<form>
-						<input type="hidden" name="code" value={code} />
-						<Button type="submit" color="green">
-							<Spinner loading={false}>
-								<Pencil1Icon />
-							</Spinner>
-							Rename
-						</Button>
-					</form>
-					<form action={deleteCourse}>
-						<input type="hidden" name="code" value={code} />
-						<DeleteButton />
-					</form>
-				</Flex>
-			</Table.Cell>
-		</Table.Row>
+		<li className="bg-neutral-50 border border-neutral-400 first-of-type:rounded-tl first-of-type:rounded-tr last-of-type:rounded-bl last-of-type:rounded-br not-last-of-type:border-b-0">
+			<form
+				className="p-4 grid grid-cols-[auto_1fr] relative gap-2 items-center"
+				action={deleteCourse}
+			>
+				<p className="font-mono">{code}</p>
+				<p className="font-sans truncate">{name}</p>
+				<input type="text" name="code" value={code} readOnly hidden />
+				<input type="text" name="name" value={name} readOnly hidden />
+				<button
+					title="Ta bort kurs"
+					className="absolute top-0 right-0 bottom-0 z-10 px-3 my-2 me-2 font-sans rounded cursor-pointer flex items-center gap-2 bg-neutral-50 hover:bg-red-600 hover:text-white after:block after:-z-10 after:absolute after:gradient after:right-full after:top-0 after:bottom-0 after:w-8 after:bg-gradient-to-l after:from-neutral-50 after:from-30% after:to-transparent transition-colors"
+				>
+					<TrashIcon />
+				</button>
+			</form>
+		</li>
 	);
 };

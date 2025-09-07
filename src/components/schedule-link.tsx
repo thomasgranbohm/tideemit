@@ -14,11 +14,11 @@ export const ScheduleLink = ({ userId }: { userId: string }) => {
 	const copyLink = useCallback(() => {
 		setOpen(false);
 		if ("navigator" in window && "clipboard" in window.navigator) {
-			window.navigator.clipboard.writeText(inputRef.current.value);
+			window.navigator.clipboard.writeText(inputRef.current.innerText);
 
 			timerRef.current = window.setTimeout(() => setOpen(true), 100);
 		} else {
-			alert(inputRef.current.value);
+			alert(inputRef.current.innerText);
 		}
 	}, [inputRef]);
 
@@ -27,34 +27,20 @@ export const ScheduleLink = ({ userId }: { userId: string }) => {
 	}, []);
 
 	return (
-		<div className="relative">
-			<input
+		<div className="mt-2 bg-neutral-50 border border-neutral-400 shadow rounded relative">
+			<p
 				ref={inputRef}
-				className="block p-4 outline box-border rounded font-mono font-co w-full text-gray-500"
-				type="text"
-				value={`${process.env.NEXT_PUBLIC_URL}/schedule/${userId}`}
-				disabled
-			/>
-			<div className="absolute right-0 top-0 p-3">
-				<Button onClick={copyLink}>
-					<CopyIcon />
-					Copy
-				</Button>
-			</div>
-			<Toast.Root
-				open={open}
-				onOpenChange={setOpen}
-				className="fixed right-4 bottom-4 shadow p-4 outline outline-gray-400 rounded font-medium bg-white"
+				className="p-4 bg-gradient-to-r font-mono select-all cursor-text truncate"
 			>
-				<Toast.Title className="flex items-center">
-					<CheckCircledIcon
-						color="green"
-						fill="green"
-						className="mr-2"
-					/>
-					Copied to clipboard
-				</Toast.Title>
-			</Toast.Root>
+				{`${process.env.NEXT_PUBLIC_URL}/schedule/${userId}`}
+			</p>
+			<button
+				title="Kopiera TideEmit-länk"
+				className="absolute top-0 right-0 bottom-0 z-10 px-3 my-2 me-2 rounded hover:shadow cursor-pointer flex items-center gap-2 transition-all motion-reduce:transition-none bg-neutral-50 hover:bg-blue-600 hover:text-white after:block after:-z-10 after:absolute after:gradient after:right-full after:top-0 after:bottom-0 after:w-8 after:bg-gradient-to-l after:from-neutral-50 after:from-30% after:to-transparent"
+				onClick={copyLink}
+			>
+				<CopyIcon />
+			</button>
 		</div>
 	);
 };

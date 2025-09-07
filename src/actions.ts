@@ -5,9 +5,9 @@ import { CodeValidation, CourseValidation } from "@/validators";
 import { PrismaClient } from "@prisma/client";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 import { encrypt, verifySession } from "./session";
+import { revalidatePath } from "next/cache";
 
 const client = new PrismaClient();
 
@@ -22,24 +22,27 @@ export const getCourses = async () => {
 	return await getCoursesByUserId(session.userId);
 };
 
-export const login = async (formData: FormData) => {
+export const login = async (_, formData: FormData) => {
 	const parsed = z
 		.object({
 			userId: z.string("Not a valid userId"),
 		})
 		.safeParse({ userId: formData.get("userId") });
 
+	// FIXME: Needs validation error handling
+
 	const user = await client.user.findFirst({
 		where: { userId: parsed.data.userId },
 	});
 
 	if (user == null) {
-		return null;
+		return { message: "Kunde inte hitta användaren", errored: true };
 	}
 
 	const expires = new Date(Date.now() + 10 * 60 * 1000);
 	const session = await encrypt({
 		userId: parsed.data.userId,
+		scheduleLink: user.scheduleLink,
 		expires,
 	});
 
@@ -48,25 +51,40 @@ export const login = async (formData: FormData) => {
 
 	redirect("/schedule");
 };
+
 export async function logout() {
 	const cookieStore = await cookies();
 	cookieStore.set("session", "", { expires: new Date(0) });
 }
 
-export async function register() {
-	const userId = uuidv4();
+export const updateSchedule = async (_, formData: FormData) => {
+	const session = await verifySession();
 
-	await client.user.create({ data: { userId } });
+	const parsed = z
+		.object({
+			scheduleLink: z.url({ hostname: /^cloud\.timeedit\.net$/ }),
+		})
+		.safeParse({ scheduleLink: formData.get("scheduleLink") });
 
-	const expires = new Date(Date.now() + 10 * 1000);
-	const session = await encrypt({
-		userId,
-		expires,
-	});
+	if (!parsed.success) {
+		return {
+			message: "Någonting är fel med länken.",
+		};
+	}
 
-	const cookieStore = await cookies();
-	cookieStore.set("session", session, { expires, httpOnly: true });
-}
+	try {
+		await client.user.update({
+			data: { scheduleLink: parsed.data.scheduleLink },
+			where: { userId: session.userId },
+		});
+
+		revalidatePath("/schedule");
+
+		return { message: "Uppdaterade schemalänken!" };
+	} catch {
+		return { message: "Kunde inte uppdatera schemalänken." };
+	}
+};
 
 export const createCourse = async (
 	prevState,
@@ -116,6 +134,7 @@ export const getCoursesByUserId = async (userId: string) => {
 	const courses = await client.course.findMany({
 		where: { userId },
 		select: { name: true, code: true },
+		orderBy: { code: "asc" },
 	});
 
 	return courses;
@@ -123,6 +142,7 @@ export const getCoursesByUserId = async (userId: string) => {
 
 export const deleteCourse = async (formData: FormData) => {
 	// TODO: Does this need error handling?
+	// TODO: Do i even need this?
 	const session = await verifySession();
 	if (!session) return null;
 
@@ -135,6 +155,8 @@ export const deleteCourse = async (formData: FormData) => {
 	if (course) {
 		await client.course.delete({ where: { id: course.id } });
 	}
+
+	revalidatePath("/schedule");
 };
 
 export const getUser = async (userId: string) => {

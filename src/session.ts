@@ -38,7 +38,11 @@ export const verifySession = cache(async () => {
 		redirect("/");
 	}
 
-	return { isAuth: true, userId: session.userId };
+	return {
+		isAuth: true,
+		userId: session.userId,
+		scheduleLink: session.scheduleLink,
+	};
 });
 
 export const updateSession = async (request: NextRequest) => {

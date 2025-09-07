@@ -10,11 +10,10 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-ubuntu-sans);
   --font-mono: var(--font-ubuntu-mono);
-  --font-title: var(--font-sweden-sans)
+  --font-title: var(--font-ubuntu-sans)
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-size: 19px;
 }
