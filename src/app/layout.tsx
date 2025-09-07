@@ -3,31 +3,8 @@ import localFont from "next/font/local";
 
 import { Footer } from "@/components/footer";
 
-import "@radix-ui/themes/styles.css";
+// import "@radix-ui/themes/styles.css";
 import "./globals.css";
-
-const swedenSans = localFont({
-	src: [
-		{
-			path: "../../public/fonts/SwedenSans/SwedenSansBold.otf",
-			weight: "700",
-		},
-		{
-			path: "../../public/fonts/SwedenSans/SwedenSansSemiBold.otf",
-			weight: "600",
-		},
-		{
-			path: "../../public/fonts/SwedenSans/SwedenSansRegular.otf",
-			weight: "400",
-		},
-		{
-			path: "../../public/fonts/SwedenSans/SwedenSansBook.otf",
-			weight: "200",
-		},
-	],
-	variable: "--font-sweden-sans",
-	declarations: [{ prop: "line-height", value: "100%" }],
-});
 
 const ubuntuSans = localFont({
 	src: [
@@ -80,9 +57,9 @@ export default async function RootLayout({
 	return (
 		<html>
 			<body
-				className={`${swedenSans.variable} ${ubuntuMono.variable} ${ubuntuSans.variable} antialiased`}
+				className={`${ubuntuMono.variable} ${ubuntuSans.variable} antialiased`}
 			>
-				<div className="relative min-h-screen grid grid-rows-[1fr_auto]">
+				<div className="relative min-h-dvh grid grid-rows-[1fr_auto]">
 					<main>{children}</main>
 					<Footer />
 				</div>

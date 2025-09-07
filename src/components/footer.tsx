@@ -1,7 +1,7 @@
 export const Footer = () => (
 	<footer className="max-w-xl h-min mx-auto py-4 px-2">
 		<p className="text-sm text-center">
-			Har du hittat ett fel? <br />
+			Är det något som strular? <br />
 			Mejla mig på{" "}
 			<a className="text-blue-600" href="mailto:thomas@granbohm.rocks">
 				thomas@granbohm.rocks

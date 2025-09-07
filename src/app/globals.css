@@ -10,7 +10,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-ubuntu-sans);
   --font-mono: var(--font-ubuntu-mono);
-  --font-title: var(--font-ubuntu-sans)
 }
 
 body {
