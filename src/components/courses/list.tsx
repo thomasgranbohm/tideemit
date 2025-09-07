@@ -1,4 +1,4 @@
-import { getCourses } from "@/lib/api";
+import { getCourses } from "@/actions";
 import { InlineCourse } from "./item";
 import { Table } from "@radix-ui/themes";
 

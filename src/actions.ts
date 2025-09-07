@@ -1,25 +1,25 @@
 "use server";
 
-import { CourseInfo, FormStateResponse, SessionInfo } from "@/types";
+import { CourseInfo, FormStateResponse } from "@/types";
 import { CodeValidation, CourseValidation } from "@/validators";
 import { PrismaClient } from "@prisma/client";
-import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
+import { encrypt, verifySession } from "./session";
 
 const client = new PrismaClient();
 
-const key = new TextEncoder().encode(process.env.SECRET);
+export const getCourses = async () => {
+	const session = await verifySession();
 
-export const encrypt = async (payload: SessionInfo) => {
-	return await new SignJWT(payload)
-		.setProtectedHeader({ alg: "HS256" })
-		.setIssuedAt()
-		.setExpirationTime("10 minutes from now")
-		.sign(key);
+	if (!session) {
+		console.log("Get courses no session");
+		return null;
+	}
+
+	return await getCoursesByUserId(session.userId);
 };
 
 export const login = async (formData: FormData) => {
@@ -45,15 +45,9 @@ export const login = async (formData: FormData) => {
 
 	const cookieStore = await cookies();
 	cookieStore.set("session", session, { expires, httpOnly: true });
+
+	redirect("/schedule");
 };
-
-export async function decrypt(input: string): Promise<SessionInfo> {
-	const { payload } = await jwtVerify<SessionInfo>(input, key, {
-		algorithms: ["HS256"],
-	});
-	return payload;
-}
-
 export async function logout() {
 	const cookieStore = await cookies();
 	cookieStore.set("session", "", { expires: new Date(0) });
@@ -74,40 +68,11 @@ export async function register() {
 	cookieStore.set("session", session, { expires, httpOnly: true });
 }
 
-export async function getSession() {
-	const cookieStore = await cookies();
-	const session = cookieStore.get("session")?.value;
-
-	if (!session) return null;
-
-	return await decrypt(session);
-}
-
-export const updateSession = async (request: NextRequest) => {
-	const session = request.cookies.get("session")?.value;
-
-	if (!session) return;
-
-	const parsed = await decrypt(session);
-	const res = NextResponse.next();
-
-	parsed.expires = new Date(Date.now() + 10 * 60 * 1000);
-
-	res.cookies.set({
-		name: "session",
-		value: await encrypt(parsed),
-		httpOnly: true,
-		expires: parsed.expires,
-	});
-
-	return res;
-};
-
 export const createCourse = async (
 	prevState,
 	formData: FormData
 ): Promise<FormStateResponse<CourseInfo>> => {
-	const session = await getSession();
+	const session = await verifySession();
 
 	if (!session) {
 		return redirect("/");
@@ -147,17 +112,6 @@ export const createCourse = async (
 	return { success: true, message: "Course created successfully!" };
 };
 
-export const getCourses = async () => {
-	const session = await getSession();
-
-	if (!session) {
-		console.log("Get courses no session");
-		return null;
-	}
-
-	return await getCoursesByUserId(session.userId);
-};
-
 export const getCoursesByUserId = async (userId: string) => {
 	const courses = await client.course.findMany({
 		where: { userId },
@@ -169,7 +123,7 @@ export const getCoursesByUserId = async (userId: string) => {
 
 export const deleteCourse = async (formData: FormData) => {
 	// TODO: Does this need error handling?
-	const session = await getSession();
+	const session = await verifySession();
 	if (!session) return null;
 
 	const parsed = CodeValidation.safeParse(formData.get("code"));

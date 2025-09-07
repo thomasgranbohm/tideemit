@@ -1,22 +1,17 @@
 import CourseCreator from "@/components/courses/creator";
 import { CourseList } from "@/components/courses/list";
 import { ScheduleLink } from "@/components/schedule-link";
-import { getSession } from "@/lib/api";
+import { verifySession } from "@/session";
 import { Container } from "@radix-ui/themes";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-	title: "Skapa schema - TideEmit",
+	title: "Skapa schema",
 };
 
 const SchedulePage = async () => {
-	const session = await getSession();
-
-	if (!session) {
-		return redirect("/");
-	}
+	const session = await verifySession();
 
 	return (
 		<Container size="3">

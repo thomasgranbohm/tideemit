@@ -1,6 +1,6 @@
-import { getSession, login } from "@/lib/api";
+import { login } from "@/actions";
+import { SubmitButton } from "@/components/submit-button";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
 	title: "TideEmit",
@@ -8,35 +8,32 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-	const session = await getSession();
-
 	return (
-		<div className="my-2 w-xl m-auto">
-			<h1 className="font-bold text-2xl my-4">TideEmit</h1>
-			{session == null && (
-				<div className="forms">
-					<form
-						action={async (formData) => {
-							"use server";
-							await login(formData);
-							redirect("/schedule");
-						}}
-					>
-						<label htmlFor="userId">User ID:</label>
-						<input type="text" name="userId" id="userId" />
-						<button type="submit">Login</button>
-					</form>
-					{/* <form
-						action={async () => {
-							"use server";
-							await register();
-							redirect("/schedule");
-						}}
-					>
-						<button type="submit">Register</button>
-					</form> */}
-				</div>
-			)}
+		<div className="mx-auto max-w-8xl pt-16 lg:pt-64">
+			<div className="max-w-2xl mx-auto">
+				<h1 className="mt-4 font-title font-bold center text-center text-6xl lg:text-9xl ">
+					TideEmit
+				</h1>
+				<p className="text-lg font-sans text-neutral-600 text-center lg:text-2xl">
+					För att TimeEdit suger...
+				</p>
+			</div>
+			<form
+				className="flex flex-col items-center justify-center max-w-md mx-auto my-4 gap-2 lg:mt-16"
+				action={login}
+			>
+				<input
+					aria-placeholder="User ID"
+					placeholder="Släng in ditt genererade ID"
+					type="text"
+					name="userId"
+					id="userId"
+					className="w-full rounded shadow font-mono outline py-2 px-4"
+				/>
+				<SubmitButton className="w-full p-2 px-8 bg-green-600 text-neutral-100 rounded font-semibold cursor-pointer aria-disabled:opacity-50 aria-disabled:cursor-not-allowed">
+					Logga in
+				</SubmitButton>
+			</form>
 		</div>
 	);
 }

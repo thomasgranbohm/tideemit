@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteCourse } from "@/lib/api";
+import { deleteCourse } from "@/actions";
 import { CourseInfo } from "@/types";
 import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 import { Button, Flex, Spinner, Table } from "@radix-ui/themes";

@@ -1,10 +1,10 @@
 // https://nextjs.org/docs/app/getting-started/route-handlers-and-middleware#caching
 
-import { getCoursesByUserId, getUser } from "@/lib/api";
 import axios from "axios";
 import { DateTime } from "luxon";
 import ical from "ical-generator";
 import { z } from "zod";
+import { getCoursesByUserId, getUser } from "@/actions";
 
 export const GET = async (
 	_: Request,
@@ -53,7 +53,7 @@ export const GET = async (
 	}
 
 	const calendar = ical({
-		name: "Schedule",
+		name: "TideEmit",
 		prodId: process.env.NEXT_PUBLIC_URL,
 	});
 

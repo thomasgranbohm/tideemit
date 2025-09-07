@@ -1,6 +1,5 @@
 "use client";
 
-import { createCourse } from "@/lib/api";
 import { FormStateResponse } from "@/types";
 import { CourseValidation, CourseValidationType } from "@/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +8,7 @@ import { startTransition, useActionState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { createCourse } from "@/actions";
 
 const CourseCreator = () => {
 	const [state, action, pending] = useActionState<
