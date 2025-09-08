@@ -64,3 +64,21 @@ export const updateSession = async (request: NextRequest) => {
 
 	return res;
 };
+
+export const setToken = async ({
+	userId,
+	scheduleLink,
+}: {
+	userId: string;
+	scheduleLink: string;
+}) => {
+	const expires = new Date(Date.now() + 10 * 60 * 1000);
+	const session = await encrypt({
+		userId,
+		scheduleLink,
+		expires,
+	});
+
+	const cookieStore = await cookies();
+	cookieStore.set("session", session, { expires, httpOnly: true });
+};

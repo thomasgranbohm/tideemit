@@ -3,11 +3,11 @@
 import { CourseInfo, FormStateResponse } from "@/types";
 import { CodeValidation, CourseValidation } from "@/validators";
 import { PrismaClient } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import z from "zod";
-import { encrypt, verifySession } from "./session";
-import { revalidatePath } from "next/cache";
+import { setToken, verifySession } from "./session";
 
 const client = new PrismaClient();
 
@@ -39,15 +39,10 @@ export const login = async (_, formData: FormData) => {
 		return { message: "Kunde inte hitta användaren", errored: true };
 	}
 
-	const expires = new Date(Date.now() + 10 * 60 * 1000);
-	const session = await encrypt({
+	await setToken({
 		userId: parsed.data.userId,
 		scheduleLink: user.scheduleLink,
-		expires,
 	});
-
-	const cookieStore = await cookies();
-	cookieStore.set("session", session, { expires, httpOnly: true });
 
 	redirect("/schedule");
 };
@@ -73,10 +68,12 @@ export const updateSchedule = async (_, formData: FormData) => {
 	}
 
 	try {
-		await client.user.update({
+		const updateUser = await client.user.update({
 			data: { scheduleLink: parsed.data.scheduleLink },
 			where: { userId: session.userId },
 		});
+
+		await setToken(updateUser);
 
 		revalidatePath("/schedule");
 
