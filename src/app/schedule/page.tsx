@@ -20,17 +20,23 @@ const SchedulePage = async () => {
 					</h1>
 				</header>
 			</div>
-			<div className="grid grid-cols-1 auto-rows-auto md:grid-cols-2 md:grid-rows-1 gap-4 sm:max-w-2xl md:max-w-3xl lg:max-w-6xl mx-auto px-4">
-				<section className="order-1 md:-order-1">
+			<div className="grid grid-cols-1 auto-rows-auto md:grid-cols-2 md:grid-rows-1 md:gap-8 sm:max-w-2xl md:max-w-3xl lg:max-w-6xl mx-auto px-4">
+				{/* TODO: Fix tab order when breakpoints change */}
+				<section className="order-1 md:-order-1 not-md:mt-8">
 					<UserInformation
 						scheduleLink={session.scheduleLink}
 						userId={session.userId}
 					/>
 				</section>
 				<section className="-order-1 md:order-1">
-					<h2 className="text-lg font-bold">Dina kurser</h2>
-					<CourseList />
-					<CourseCreator />
+					<div>
+						<h2 className="text-xl font-sans">Dina kurser</h2>
+						<CourseList />
+					</div>
+					<div className="mt-6">
+						<h2 className="text-xl font-sans">Lägg till kurs</h2>
+						<CourseCreator />
+					</div>
 				</section>
 			</div>
 		</div>

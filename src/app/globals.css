@@ -16,3 +16,9 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+.lucide {
+  width: calc(var(--spacing) * 4);
+  height: calc(var(--spacing) * 4);
+  stroke-width: 1.5;
+}

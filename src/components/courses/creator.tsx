@@ -1,17 +1,15 @@
 "use client";
 
+import { createCourse } from "@/actions";
 import { FormStateResponse } from "@/types";
 import { CourseValidation, CourseValidationType } from "@/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Callout, Spinner } from "@radix-ui/themes";
+import { PlusIcon } from "lucide-react";
 import { startTransition, useActionState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { createCourse } from "@/actions";
-
 const CourseCreator = () => {
-	const [state, action, pending] = useActionState<
+	const [state, action] = useActionState<
 		FormStateResponse<CourseValidationType>,
 		FormData
 	>(createCourse, { success: false, errors: {}, message: "" });
@@ -50,68 +48,58 @@ const CourseCreator = () => {
 					);
 				})(evt);
 			}}
-			className="py-2 space-y-2"
+			className="mt-2"
 		>
-			<h2 className="font-bold text-xl">Create new course</h2>
-			<label className="block font-bold" htmlFor="code">
-				Code:
-			</label>
-			<input
-				className="block p-2 border rounded font-mono font-co"
-				{...register("code")}
-				required
-				type="text"
-				name="code"
-				placeholder="TATB01"
-			/>
-			{errors.code && (
-				<p className="text-red-500">{errors.code.message}</p>
-			)}
-			{state.success == false && state.errors?.code && (
-				<ul>
-					{state.errors.code.map((message, i) => (
-						<li key={i} className="text-red-500">
-							{message}
-						</li>
-					))}
-				</ul>
-			)}
-			<label className="block font-bold" htmlFor="name">
-				Name:
-			</label>
-			<input
-				className="block p-2 border rounded"
-				type="text"
-				name="name"
-				id="name"
-				placeholder="Grunken"
-				{...register("name")}
-			/>
-			{errors?.name && (
-				<p className="text-red-500">{errors.name.message}</p>
-			)}
-			{state.success == false && state.errors?.name && (
-				<ul>
-					{state.errors.name.map((message, i) => (
-						<li key={i} className="text-red-500">
-							{message}
-						</li>
-					))}
-				</ul>
-			)}
-			{state.success == false && state.message && (
-				<Callout.Root color="red">
-					<Callout.Icon>
-						<ExclamationTriangleIcon />
-					</Callout.Icon>
+			<div className="pt-4 relative bg-neutral-50 border border-neutral-400 rounded">
+				<label htmlFor="code" className="ms-4 mt-4 font-sans text-bold">
+					Kurskod
+				</label>
+				<input
+					className="block p-4 font-mono w-full"
+					{...register("code")}
+					required
+					type="text"
+					name="code"
+					placeholder="TATB01"
+				/>
+				<label htmlFor="name" className="ms-4 mt-4 font-sans text-bold">
+					Kursnamn
+				</label>
+				<input
+					className="block p-4  w-full"
+					type="text"
+					name="name"
+					id="name"
+					placeholder="Grunken"
+					{...register("name")}
+				/>
+			</div>
+			<div className="flex flex-col sm:flex-row-reverse sm:justify-between sm:items-center md:flex-col md:items-start lg:flex-row-reverse lg:justify-between lg:items-center ">
+				<button
+					title="Ta bort kurs"
+					className="p-3 px-4 w-full text-center mt-2 font-sans rounded cursor-pointer flex items-center justify-center gap-2 bg-green-600 text-white hover:bg-green-700 focus:bg-green-700 active:bg-green-700 aria-disabled:bg-neutral-200 aria-disabled:text-neutral-500 transition-colors sm:w-fit md:w-full lg:w-fit"
+					type="submit"
+					aria-disabled={!isValid}
+				>
+					<PlusIcon />
+					Lägg till kurs
+				</button>
 
-					<Callout.Text>{state.message}</Callout.Text>
-				</Callout.Root>
-			)}
-			<Button type="submit" disabled={!isValid || pending} color="green">
-				<Spinner loading={pending} />
-				Create course
-			</Button>
+				{errors?.name && (
+					<p className="text-red-500 mt-2 sm:mt-0 md:mt-2">
+						{errors.name.message}
+					</p>
+				)}
+				{state.success == false && state.errors?.name && (
+					<ul className="mt-2 sm:mt-0 md:mt-2">
+						{state.errors.name.map((message, i) => (
+							<li key={i} className="text-red-500">
+								{message}
+							</li>
+						))}
+					</ul>
+				)}
+			</div>
 		</form>
 	);
 };

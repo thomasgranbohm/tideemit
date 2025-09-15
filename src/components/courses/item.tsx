@@ -2,13 +2,13 @@
 
 import { deleteCourse } from "@/actions";
 import { CourseInfo } from "@/types";
-import { TrashIcon } from "@radix-ui/react-icons";
+import { TrashIcon } from "lucide-react";
 
 export const InlineCourse = ({ code, name }: CourseInfo) => {
 	return (
 		<li className="bg-neutral-50 border border-neutral-400 first-of-type:rounded-tl first-of-type:rounded-tr last-of-type:rounded-bl last-of-type:rounded-br not-last-of-type:border-b-0">
 			<form
-				className="p-4 grid grid-cols-[auto_1fr] relative gap-2 items-center"
+				className="p-4 grid grid-cols-[auto_1fr] relative gap-4 items-center"
 				action={deleteCourse}
 			>
 				<p className="font-mono">{code}</p>

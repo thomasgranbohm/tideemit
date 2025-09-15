@@ -1,10 +1,10 @@
 "use client";
 
 import { updateSchedule } from "@/actions";
-import { CheckIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import { Fragment, useActionState } from "react";
 import { CopyInput } from "./copy-input";
 import { SubmitButton } from "./forms/submit-button";
+import { CheckIcon, PencilIcon } from "lucide-react";
 
 export const UserInformation = ({
 	scheduleLink,
@@ -18,19 +18,17 @@ export const UserInformation = ({
 	return (
 		<Fragment>
 			<div>
-				<h2 className="font-bold text-xl font-sans">
-					Ditt användar-ID
-				</h2>
+				<h2 className="text-xl font-sans">Ditt användar-ID</h2>
 				<CopyInput value={userId}>
-					<CheckIcon className="size-5 inline text-4xl text-green-600" />
+					<CheckIcon className="inline text-4xl text-green-600" />
 					<p className="ps-1 inline">Kopierade användar-ID!</p>
 				</CopyInput>
 				<p className="mt-2 text-neutral-700  font-sans">
 					Typiskt viktigt att spara på nåt vänster!
 				</p>
 			</div>
-			<div className="my-8">
-				<h2 className="font-bold text-xl font-sans">
+			<div className="mt-6">
+				<h2 className="text-xl font-sans">
 					Din{" "}
 					<span className="relative">
 						<span
@@ -45,16 +43,14 @@ export const UserInformation = ({
 				<CopyInput
 					value={`${process.env.NEXT_PUBLIC_URL}/schedule/${userId}`}
 				>
-					<CheckIcon className="size-5 inline text-4xl text-green-600" />
+					<CheckIcon className="size-4 inline text-4xl text-green-600" />
 					<p className="ps-1 inline">Kopierade länken!</p>
 				</CopyInput>
 			</div>
 
-			<form className="my-8 flex flex-col" action={formAction}>
+			<form className="mt-6 flex flex-col" action={formAction}>
 				<label htmlFor="scheduleLink">
-					<h2 className="font-bold text-xl font-sans">
-						Din TimeEdit-länk
-					</h2>
+					<h2 className="text-xl font-sans">Din TimeEdit-länk</h2>
 				</label>
 				<input
 					type="text"
@@ -63,7 +59,7 @@ export const UserInformation = ({
 					className="mt-2 p-4 bg-neutral-50 w-full block font-mono border border-neutral-400 rounded"
 				/>
 				<SubmitButton className="mt-2 shadow font-sans rounded bg-green-600 text-white px-3 py-2 flex items-center justify-center gap-1 sm:self-end cursor-pointer">
-					<Pencil1Icon />
+					<PencilIcon className="size-4" />
 					Uppdatera länk
 				</SubmitButton>
 				<p aria-live="polite" role="status">

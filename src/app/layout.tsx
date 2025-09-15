@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 
 import { Footer } from "@/components/footer";
 
-// import "@radix-ui/themes/styles.css";
 import "./globals.css";
 
 const ubuntuSans = localFont({

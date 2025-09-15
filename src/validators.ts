@@ -1,19 +1,19 @@
 import { z } from "zod";
 
 export const CodeValidation = z
-	.string("Code is not a string")
-	.min(6, "Code too short")
-	.max(6, "Code too long")
-	.regex(/^[a-zA-Z0-9]{6}$/, "Code doesn't match pattern");
+	.string("Kurskoden måste vara text")
+	.min(6, "Kurskoden är för kort")
+	.max(6, "Kurskoden är för lång")
+	.regex(/^[a-zA-Z0-9]{6}$/, "Kurskoden innehåller ogiltiga tecken");
 
 export type CodeValidationType = z.infer<typeof CodeValidation>;
 
 export const CourseValidation = z.object({
 	code: CodeValidation,
 	name: z
-		.string("Name is not a string")
-		.min(4, "Name too short")
-		.max(128, "Name too long"),
+		.string("Kursnamnet måste vara text")
+		.min(4, "Kursnamnet är för kort")
+		.max(128, "Kursnamnet är för långt"),
 });
 
 export type CourseValidationType = z.infer<typeof CourseValidation>;
