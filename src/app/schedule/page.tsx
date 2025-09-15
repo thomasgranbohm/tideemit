@@ -2,11 +2,6 @@ import CourseCreator from "@/components/courses/creator";
 import { CourseList } from "@/components/courses/list";
 import { UserInformation } from "@/components/user-information";
 import { verifySession } from "@/session";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-	title: "Skapa schema",
-};
 
 const SchedulePage = async () => {
 	const session = await verifySession();
@@ -21,14 +16,13 @@ const SchedulePage = async () => {
 				</header>
 			</div>
 			<div className="grid grid-cols-1 auto-rows-auto md:grid-cols-2 md:grid-rows-1 md:gap-8 sm:max-w-2xl md:max-w-3xl lg:max-w-6xl mx-auto px-4">
-				{/* TODO: Fix tab order when breakpoints change */}
-				<section className="order-1 md:-order-1 not-md:mt-8">
+				<section>
 					<UserInformation
-						scheduleLink={session.scheduleLink}
+						scheduleLink={session?.scheduleLink}
 						userId={session.userId}
 					/>
 				</section>
-				<section className="-order-1 md:order-1">
+				<section className="not-md:mt-8">
 					<div>
 						<h2 className="text-xl font-sans">Dina kurser</h2>
 						<CourseList />

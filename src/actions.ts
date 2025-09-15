@@ -77,9 +77,12 @@ export const updateSchedule = async (_, formData: FormData) => {
 
 		revalidatePath("/schedule");
 
-		return { message: "Uppdaterade schemalänken!" };
+		return { message: "Uppdaterade schemalänken!", success: true };
 	} catch {
-		return { message: "Kunde inte uppdatera schemalänken." };
+		return {
+			message: "Kunde inte uppdatera schemalänken.",
+			success: false,
+		};
 	}
 };
 
