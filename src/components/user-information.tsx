@@ -63,7 +63,7 @@ export const UserInformation = ({
 			</div>
 
 			<button
-				className="mx-auto flex justify-between items-center gap-2 mt-2 p-3 px-4 rounded cursor-pointer bg-blue-600 text-white hover:shadow hover:bg-blue-700 transition-all"
+				className="mx-auto font-sans flex justify-between items-center gap-2 mt-2 p-3 px-4 rounded cursor-pointer bg-blue-600 text-white hover:shadow hover:bg-blue-700 transition-all"
 				onClick={() => setOpen(true)}
 			>
 				<CogIcon size={16} />

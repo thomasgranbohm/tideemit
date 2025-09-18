@@ -1,3 +1,4 @@
+// TODO: Cache the response if the TimeEdit schedule hasn't change or if the user hasn't changed any settings
 // https://nextjs.org/docs/app/getting-started/route-handlers-and-middleware#caching
 
 import axios from "axios";
@@ -15,7 +16,7 @@ export const GET = async (
 	const user = await getUser(userId);
 
 	if (!user.scheduleLink) {
-		return Response.error();
+		return new Response(null, { status: 404 });
 	}
 
 	const resp = await axios.get(user.scheduleLink.replace(".ics", ".json"));
