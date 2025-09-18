@@ -81,7 +81,7 @@ const CourseCreator = () => {
 					type="submit"
 					aria-disabled={!isValid}
 				>
-					<PlusIcon />
+					<PlusIcon size={16} />
 					Lägg till kurs
 				</button>
 

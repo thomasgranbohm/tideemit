@@ -1,10 +1,9 @@
 "use client";
 
 import { useNotificationTimer } from "@/hooks";
-import { AnimatePresence, motion } from "framer-motion";
 import { CopyIcon } from "lucide-react";
 import { ReactNode } from "react";
-import { Portal } from "./portal";
+import { Toast } from "./toast";
 
 export const CopyInput = ({
 	children,
@@ -34,28 +33,9 @@ export const CopyInput = ({
 				<CopyIcon className="size-4" />
 			</button>
 
-			<AnimatePresence>
-				{open && (
-					<Portal>
-						<div className="z-10 fixed bottom-0 right-0 overflow-x-hidden">
-							<motion.div
-								initial={{ x: "100%" }}
-								animate={{ x: "0%" }}
-								exit={{ x: "100%" }}
-								transition={{
-									duration: 0.5,
-									type: "spring",
-									bounce: 0.3,
-								}}
-							>
-								<div className="m-4 p-4 border border-neutral-400 shadow rounded bg-white">
-									{children}
-								</div>
-							</motion.div>
-						</div>
-					</Portal>
-				)}
-			</AnimatePresence>
+			<Toast open={open} type="success">
+				{children}
+			</Toast>
 		</div>
 	);
 };

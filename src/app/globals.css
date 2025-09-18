@@ -18,7 +18,5 @@ body {
 }
 
 .lucide {
-  width: calc(var(--spacing) * 4);
-  height: calc(var(--spacing) * 4);
-  stroke-width: 1.5;
+  stroke-width: 2;
 }
