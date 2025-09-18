@@ -37,7 +37,7 @@ export const UserInformation = ({
 	return (
 		<Fragment>
 			<div>
-				<h2 className="text-xl font-sans">Ditt användar-ID</h2>
+				<h2 className="text-xl font-bold">Ditt användar-ID</h2>
 				<CopyInput value={userId}>
 					<CheckIcon className="inline text-4xl text-green-600" />
 					<p className="ps-1 inline">Kopierade användar-ID!</p>
@@ -47,7 +47,7 @@ export const UserInformation = ({
 				</p>
 			</div>
 			<div className="mt-6">
-				<h2 className="text-xl font-sans">
+				<h2 className="text-xl font-bold">
 					Din{" "}
 					<span className="relative">
 						<span
@@ -69,44 +69,39 @@ export const UserInformation = ({
 
 			<div className="mt-6 flex flex-col">
 				<label htmlFor="scheduleLink">
-					<h2 className="text-xl font-sans">Din TimeEdit-länk</h2>
+					<h2 className="text-xl font-bold">Din TimeEdit-länk</h2>
 				</label>
-				<div className="relative mt-2">
-					<input
-						type="text"
-						name="scheduleLink"
-						value={scheduleLink}
-						className="p-4 pe-16 bg-neutral-50 w-full block font-mono border text-neutral-700 border-neutral-400 rounded"
-						disabled
-					/>
+				<div className="mt-2 overflow-x-hidden relative border border-neutral-400 rounded">
+					<p className="p-4 pe-16 bg-neutral-50 overflow-auto whitespace-nowrap text-nowrap block font-mono text-neutral-600 z-0 before:absolute before:top-2 before:bottom-2 before:left-0 before:w-4 before:bg-linear-to-r before:via-50% before:from-neutral-50 before:via-neutral-50 before:to-transparent after:absolute after:top-3 after:bottom-3 after:right-0 after:w-16 after:bg-linear-to-l after:via-80% after:from-neutral-50 after:via-neutral-50 after:to-transparent after:z-10 after:block">
+						{scheduleLink}
+					</p>
 					<button
-						className="absolute top-2 bottom-2 right-2 aspect-square text-center rounded cursor-pointer transition-colors hover:bg-green-500 hover:text-white active:bg-green-500 active:text-white focus:bg-green-500 focus:text-white"
+						className="absolute top-2 w-10 right-2 aspect-square text-center rounded cursor-pointer z-10 transition-colors bg-neutral-50 hover:bg-green-500 hover:text-white active:bg-green-500 active:text-white focus:bg-green-500 focus:text-white"
 						onClick={() => setOpen(true)}
 					>
 						<PencilIcon className="size-4 mx-auto" />
 					</button>
 
 					<Modal open={open} setOpen={setOpen}>
-						<h2 className="text-xl font-sans">
+						<h2 className="text-xl font-bold">
 							Uppdatera din TimeEdit-länk
 						</h2>
 						<p className="mt-2 text-neutral-700  font-sans">
 							Här kan du uppdatera din länk från TimeEdit, till
 							exempel vid terminsbyte eller liknande.
 						</p>
-						<h3 className="text-md font-sans mt-4">
+						<h3 className="text-md font-bold mt-4">
 							Din nuvarande TimeEdit-länk
 						</h3>
-						<input
-							type="text"
-							name="scheduleLink"
-							value={scheduleLink}
-							className="mt-2 p-4 bg-neutral-50 w-full block font-mono border border-neutral-400 text-neutral-600 rounded"
-							disabled
-						/>
+						<div className="mt-2 overflow-x-hidden relative border border-neutral-400 rounded">
+							<p className="p-4 bg-neutral-50 overflow-auto whitespace-nowrap text-nowrap block font-mono text-neutral-600 z-0 before:absolute before:top-3 before:bottom-3 before:left-0 before:w-4 before:bg-linear-to-r before:via-50% before:from-neutral-50 before:via-neutral-50 before:to-transparent after:absolute after:top-3 after:bottom-3 after:right-0 after:w-4 after:bg-linear-to-l after:via-50% after:from-neutral-50 after:via-neutral-50 after:to-transparent after:z-10 after:block">
+								{scheduleLink}
+							</p>
+						</div>
+
 						<form action={formAction}>
 							<label htmlFor="scheduleLink">
-								<h3 className="text-md font-sans mt-4">
+								<h3 className="text-md font-bold mt-4">
 									Din nya TimeEdit-länk
 								</h3>
 							</label>

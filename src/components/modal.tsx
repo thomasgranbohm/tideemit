@@ -21,17 +21,16 @@ export const Modal = ({
 		};
 
 		if (open) {
-			console.log("Adding");
 			document.body.addEventListener("keydown", getKeyboardInputs);
 		}
 
 		return () => {
-			console.log("Removing!");
 			document.body.removeEventListener("keydown", getKeyboardInputs);
 		};
 	}, [open, setOpen]);
 
 	useEffect(() => {
+		// FIXME: Doesn't work on mobile, atleast iOS
 		if (open) {
 			document.body.classList.add("overflow-y-hidden");
 		} else {
@@ -52,6 +51,7 @@ export const Modal = ({
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 0.5 }}
 					className="absolute top-0 bottom-0 left-0 right-0 bg-gray-600 opacity-50 z-0"
+					onClick={() => setOpen(false)}
 				/>
 				{/* TODO: Ser keeft ut med bakgrunden på mobilen inte alignat */}
 				<motion.div
@@ -62,7 +62,7 @@ export const Modal = ({
 						type: "spring",
 						bounce: 0.3,
 					}}
-					className="mx-auto p-4 sm:max-w-2xl md:max-w-3xl lg:max-w-6xl bg-white border shadow border-neutral-400 rounded z-10"
+					className="mx-auto p-4 overflow-x-hidden sm:max-w-2xl bg-white border shadow border-neutral-400 rounded z-10"
 				>
 					{children}
 				</motion.div>

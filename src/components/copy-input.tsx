@@ -28,7 +28,7 @@ export const CopyInput = ({
 			</p>
 			<button
 				title="Kopiera"
-				className="absolute top-0 right-0 bottom-0 z-10 px-3 my-2 me-2 aspect-square rounded hover:shadow cursor-pointer flex items-center gap-2 transition-all motion-reduce:transition-none bg-neutral-50 hover:bg-blue-600 hover:text-white active:bg-blue-600 active:text-white after:block after:-z-10 after:absolute after:gradient after:right-full after:top-0 after:bottom-0 after:w-8 after:bg-gradient-to-l after:from-neutral-50 after:from-30% after:to-transparent"
+				className="absolute top-0 right-0 bottom-0 z-10 w-10 px-3 my-2 me-2 aspect-square rounded hover:shadow cursor-pointer flex items-center gap-2 transition-all motion-reduce:transition-none bg-neutral-50 hover:bg-blue-600 hover:text-white active:bg-blue-600 active:text-white after:block after:-z-10 after:absolute after:gradient after:right-full after:top-0 after:bottom-0 after:w-8 after:bg-gradient-to-l after:from-neutral-50 after:from-30% after:to-transparent"
 				onClick={copyLink}
 			>
 				<CopyIcon className="size-4" />
@@ -37,7 +37,7 @@ export const CopyInput = ({
 			<AnimatePresence>
 				{open && (
 					<Portal>
-						<div className="fixed bottom-0 right-0 overflow-x-hidden">
+						<div className="z-10 fixed bottom-0 right-0 overflow-x-hidden">
 							<motion.div
 								initial={{ x: "100%" }}
 								animate={{ x: "0%" }}
