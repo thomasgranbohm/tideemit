@@ -4,6 +4,7 @@ import { login } from "@/actions";
 import { KeyRoundIcon } from "lucide-react";
 import { useActionState } from "react";
 import { SubmitButton } from "./submit-button";
+import { TurnStile } from "./turnstile";
 
 export const LoginForm = () => {
 	const [state, formAction] = useActionState(login, {
@@ -32,6 +33,7 @@ export const LoginForm = () => {
 			<p aria-live="polite" role="status" className="text-red-500">
 				{state.message}
 			</p>
+			<TurnStile />
 		</form>
 	);
 };
