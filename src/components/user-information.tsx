@@ -40,7 +40,7 @@ export const UserInformation = ({
 					Ditt användar-ID
 				</h2>
 				<CopyInput value={userId}>Kopierade användar-ID!</CopyInput>
-				<p className="mt-2 text-neutral-700 dark:text-neutral-300 font-sans">
+				<p className="mt-2 font-sans text-neutral-700 dark:text-neutral-300">
 					Typiskt viktigt att spara på nåt vänster!
 				</p>
 			</div>
@@ -49,7 +49,7 @@ export const UserInformation = ({
 					Din{" "}
 					<span className="relative">
 						<span
-							className="absolute -inset-1 block -skew-y-6 rotate-6 bg-[#FF9DBF] dark:bg-[#e2709a] -z-10"
+							className="absolute -inset-1 -z-10 block rotate-6 -skew-y-6 bg-[#FF9DBF] dark:bg-[#e2709a]"
 							aria-hidden="true"
 						></span>
 						<span className="relative text-[#760032] dark:text-[#30101c]">
@@ -65,7 +65,7 @@ export const UserInformation = ({
 			</div>
 
 			<button
-				className="mx-auto font-sans flex justify-between items-center gap-2 mt-2 p-3 px-4 rounded cursor-pointer bg-blue-600 text-white hover:shadow hover:bg-blue-700 transition-all"
+				className="mx-auto mt-2 flex w-full cursor-pointer items-center justify-center gap-2 rounded bg-blue-600 p-3 px-4 font-sans text-white transition-all hover:bg-blue-700 hover:shadow sm:w-fit md:w-full lg:w-fit"
 				onClick={() => setOpen(true)}
 			>
 				<CogIcon size={16} />
@@ -76,22 +76,22 @@ export const UserInformation = ({
 				<h2 className="text-xl font-bold text-black dark:text-neutral-50">
 					Uppdatera din TimeEdit-länk
 				</h2>
-				<p className="mt-2 text-neutral-700 dark:text-neutral-300 font-sans">
+				<p className="mt-2 font-sans text-neutral-700 dark:text-neutral-300">
 					Här kan du uppdatera din länk från TimeEdit, till exempel
 					vid terminsbyte eller liknande.
 				</p>
-				<h3 className="text-md font-bold mt-4 text-black dark:text-neutral-50">
+				<h3 className="text-md mt-4 font-bold text-black dark:text-neutral-50">
 					Din nuvarande TimeEdit-länk
 				</h3>
-				<div className="mt-2 overflow-x-hidden relative border border-neutral-400 dark:border-neutral-600 rounded">
-					<p className="p-4 bg-neutral-50 dark:bg-neutral-900 overflow-auto whitespace-nowrap text-nowrap select-all font-mono text-neutral-600 dark:text-neutral-200 z-0 before:absolute before:top-3 before:bottom-3 before:left-0 before:w-4 before:bg-linear-to-r before:via-50% before:from-neutral-50 before:via-neutral-50 dark:before:from-neutral-900 dark:before:via-neutral-900 before:to-transparent after:absolute after:top-3 after:bottom-3 after:right-0 after:w-4 after:bg-linear-to-l after:via-50% after:from-neutral-50 after:via-neutral-50 dark:after:from-neutral-900 dark:after:via-neutral-900 after:to-transparent after:z-10 after:block">
+				<div className="relative mt-2 overflow-x-hidden rounded border border-neutral-400 dark:border-neutral-600">
+					<p className="bg-background z-0 overflow-auto p-4 font-mono text-nowrap whitespace-nowrap text-neutral-600 select-all before:absolute before:top-3 before:bottom-3 before:left-0 before:w-4 before:bg-linear-to-r before:from-neutral-50 before:via-neutral-50 before:via-50% before:to-transparent after:absolute after:top-3 after:right-0 after:bottom-3 after:z-10 after:block after:w-4 after:bg-linear-to-l after:from-neutral-50 after:via-neutral-50 after:via-50% after:to-transparent dark:text-neutral-200 dark:before:from-neutral-900 dark:before:via-neutral-900 dark:after:from-neutral-900 dark:after:via-neutral-900">
 						{scheduleLink}
 					</p>
 				</div>
 
 				<form action={formAction}>
 					<label htmlFor="scheduleLink">
-						<h3 className="text-md font-bold mt-4 text-black dark:text-neutral-50">
+						<h3 className="text-md mt-4 font-bold text-black dark:text-neutral-50">
 							Din nya TimeEdit-länk
 						</h3>
 					</label>
@@ -100,9 +100,9 @@ export const UserInformation = ({
 						name="scheduleLink"
 						required
 						placeholder="https://cloud.timeedit.net/liu/web/schema/..."
-						className="mt-2 p-4 bg-neutral-50 dark:bg-neutral-900 text-black text-neutral-50 w-full block font-mono border border-neutral-400 dark:border-neutral-600 rounded"
+						className="bg-background mt-2 block w-full rounded border border-neutral-400 p-4 font-mono text-black text-neutral-50 dark:border-neutral-600"
 					/>
-					<div className="flex flex-col mt-2 sm:flex-row sm:justify-between sm:items-center md:flex-col md:items-start lg:flex-row lg:justify-between lg:items-center">
+					<div className="mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between md:flex-col md:items-start lg:flex-row lg:items-center lg:justify-between">
 						<p
 							className="text-red-600"
 							aria-live="polite"
@@ -110,7 +110,7 @@ export const UserInformation = ({
 						>
 							{!state.success && state.message}
 						</p>
-						<SubmitButton className="p-3 px-4 mt-2 sm:mt-0 md:mt-2 lg:mt-0 w-full text-center font-sans rounded cursor-pointer flex items-center justify-center gap-2 bg-emerald-600 text-white hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-700 aria-disabled:bg-neutral-200 aria-disabled:text-neutral-500 transition-colors sm:w-fit md:w-full lg:w-fit">
+						<SubmitButton className="mt-2 flex w-full cursor-pointer items-center justify-center gap-2 rounded bg-emerald-600 p-3 px-4 text-center font-sans text-white transition-colors hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-700 aria-disabled:bg-neutral-200 aria-disabled:text-neutral-500 sm:mt-0 sm:w-fit md:mt-2 md:w-full lg:mt-0 lg:w-fit">
 							<PencilIcon size={16} />
 							Uppdatera länk
 						</SubmitButton>

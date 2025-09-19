@@ -21,7 +21,7 @@ export const CopyInput = ({
 	});
 
 	return (
-		<div className="mt-2 bg-neutral-50 dark:bg-neutral-900 border border-neutral-400 dark:border-neutral-600 rounded relative">
+		<div className="mt-2 bg-background border border-neutral-400 dark:border-neutral-600 rounded relative">
 			<p className="p-4 bg-gradient-to-r font-mono select-all cursor-text truncate text-black dark:text-neutral-50">
 				{value}
 			</p>

@@ -17,12 +17,6 @@ const SchedulePage = async () => {
 			</div>
 			<div className="grid grid-cols-1 auto-rows-auto md:grid-cols-2 md:grid-rows-1 md:gap-8 sm:max-w-2xl md:max-w-3xl lg:max-w-6xl mx-auto px-4">
 				<section>
-					<UserInformation
-						scheduleLink={session?.scheduleLink}
-						userId={session.userId}
-					/>
-				</section>
-				<section className="not-md:mt-8">
 					<div>
 						<h2 className="text-xl font-bold text-black dark:text-neutral-50">
 							Dina kurser
@@ -35,6 +29,12 @@ const SchedulePage = async () => {
 						</h2>
 						<CourseCreator />
 					</div>
+				</section>
+				<section className="not-md:mt-8">
+					<UserInformation
+						scheduleLink={session?.scheduleLink}
+						userId={session.userId}
+					/>
 				</section>
 			</div>
 		</div>

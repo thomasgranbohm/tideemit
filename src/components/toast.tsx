@@ -27,7 +27,7 @@ export const Toast = ({
 								bounce: 0.3,
 							}}
 						>
-							<div className="m-4 p-4 border border-neutral-400 dark:border-neutral-600 shadow rounded bg-white">
+							<div className="m-4 p-4 border border-neutral-400 dark:border-neutral-600 shadow rounded bg-background text-foreground">
 								<p aria-live="polite" role="status">
 									<CheckIcon
 										size={16}
