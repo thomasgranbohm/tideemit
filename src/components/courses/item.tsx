@@ -12,12 +12,8 @@ export const InlineCourse = ({ code, name }: CourseInfo) => {
 				className="relative grid grid-cols-[auto_1fr] items-center gap-4 p-4"
 				action={deleteCourse}
 			>
-				<p className="font-mono text-black dark:text-neutral-50">
-					{code}
-				</p>
-				<p className="truncate font-sans text-black dark:text-neutral-50">
-					{name}
-				</p>
+				<p className="text-foreground font-mono">{code}</p>
+				<p className="text-foreground truncate font-sans">{name}</p>
 				<input type="text" name="code" value={code} readOnly hidden />
 				<input type="text" name="name" value={name} readOnly hidden />
 				<button

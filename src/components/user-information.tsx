@@ -36,7 +36,7 @@ export const UserInformation = ({
 	return (
 		<Fragment>
 			<div>
-				<h2 className="text-xl font-bold text-black dark:text-neutral-50">
+				<h2 className="font-sans text-xl font-bold text-black dark:text-neutral-50">
 					Ditt användar-ID
 				</h2>
 				<CopyInput value={userId}>Kopierade användar-ID!</CopyInput>
@@ -45,7 +45,7 @@ export const UserInformation = ({
 				</p>
 			</div>
 			<div className="mt-6">
-				<h2 className="text-xl font-bold text-black dark:text-neutral-50">
+				<h2 className="font-sans text-xl font-bold text-black dark:text-neutral-50">
 					Din{" "}
 					<span className="relative">
 						<span
@@ -73,14 +73,14 @@ export const UserInformation = ({
 			</button>
 
 			<Modal open={open} setOpen={setOpen}>
-				<h2 className="text-xl font-bold text-black dark:text-neutral-50">
+				<h2 className="font-sans text-xl font-bold text-black dark:text-neutral-50">
 					Uppdatera din TimeEdit-länk
 				</h2>
 				<p className="mt-2 font-sans text-neutral-700 dark:text-neutral-300">
 					Här kan du uppdatera din länk från TimeEdit, till exempel
 					vid terminsbyte eller liknande.
 				</p>
-				<h3 className="text-md mt-4 font-bold text-black dark:text-neutral-50">
+				<h3 className="mt-4 font-sans text-base font-bold text-black dark:text-neutral-50">
 					Din nuvarande TimeEdit-länk
 				</h3>
 				<div className="relative mt-2 overflow-x-hidden rounded border border-neutral-400 dark:border-neutral-600">
@@ -91,7 +91,7 @@ export const UserInformation = ({
 
 				<form action={formAction}>
 					<label htmlFor="scheduleLink">
-						<h3 className="text-md mt-4 font-bold text-black dark:text-neutral-50">
+						<h3 className="mt-4 font-sans text-base font-bold text-black dark:text-neutral-50">
 							Din nya TimeEdit-länk
 						</h3>
 					</label>
@@ -104,7 +104,7 @@ export const UserInformation = ({
 					/>
 					<div className="mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between md:flex-col md:items-start lg:flex-row lg:items-center lg:justify-between">
 						<p
-							className="text-red-600"
+							className="font-sans text-red-600"
 							aria-live="polite"
 							role="status"
 						>

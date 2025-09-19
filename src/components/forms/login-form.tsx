@@ -26,11 +26,15 @@ export const LoginForm = () => {
 				aria-invalid={state.errored}
 				required
 			/>
-			<SubmitButton className="mt-2 flex w-full cursor-pointer justify-center gap-2 rounded bg-emerald-600 p-2 px-8 font-semibold text-neutral-100 transition-all hover:bg-emerald-700 hover:shadow aria-disabled:cursor-not-allowed aria-disabled:opacity-50 dark:bg-emerald-500 dark:text-neutral-900 dark:hover:bg-emerald-600">
+			<SubmitButton className="mt-2 flex w-full cursor-pointer justify-center gap-2 rounded bg-emerald-600 p-2 px-8 font-sans font-semibold text-neutral-100 transition-all hover:bg-emerald-700 hover:shadow aria-disabled:cursor-not-allowed aria-disabled:opacity-50 dark:bg-emerald-500 dark:text-neutral-900 dark:hover:bg-emerald-600">
 				<KeyRoundIcon />
 				Logga in
 			</SubmitButton>
-			<p aria-live="polite" role="status" className="text-red-500">
+			<p
+				aria-live="polite"
+				role="status"
+				className="font-sans text-red-500"
+			>
 				{state.message}
 			</p>
 			<Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} />
