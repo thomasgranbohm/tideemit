@@ -10,9 +10,9 @@ import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import z from "zod";
-import { setToken, verifySession } from "./session";
 import { v4 } from "uuid";
+import { z } from "zod";
+import { setToken, verifySession } from "./session";
 
 const client = new PrismaClient();
 

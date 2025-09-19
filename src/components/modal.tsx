@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { LazyMotion, domAnimation } from "motion/react";
+import * as motion from "motion/react-m";
 import { ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 
@@ -45,7 +46,7 @@ export const Modal = ({
 	if (!open) return null;
 
 	return createPortal(
-		<AnimatePresence>
+		<LazyMotion features={domAnimation}>
 			<div className="fixed top-0 bottom-0 left-0 right-0 z-50 flex justify-center items-center p-4">
 				<motion.div
 					initial={{ opacity: 0 }}
@@ -67,7 +68,7 @@ export const Modal = ({
 					{children}
 				</motion.div>
 			</div>
-		</AnimatePresence>,
+		</LazyMotion>,
 		document.body
 	);
 };

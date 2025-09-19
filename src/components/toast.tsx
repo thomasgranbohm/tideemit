@@ -1,8 +1,8 @@
-import { AnimatePresence } from "framer-motion";
-import { Portal } from "./portal";
 import { CheckIcon } from "lucide-react";
-import { motion } from "framer-motion";
+import { LazyMotion, domAnimation } from "motion/react";
+import * as motion from "motion/react-m";
 import { ReactNode } from "react";
+import { Portal } from "./portal";
 
 export const Toast = ({
 	children,
@@ -13,7 +13,7 @@ export const Toast = ({
 	type: "success";
 }) => {
 	return (
-		<AnimatePresence>
+		<LazyMotion features={domAnimation}>
 			{open && (
 				<Portal>
 					<div className="fixed bottom-0 right-0 overflow-x-hidden">
@@ -40,6 +40,6 @@ export const Toast = ({
 					</div>
 				</Portal>
 			)}
-		</AnimatePresence>
+		</LazyMotion>
 	);
 };
