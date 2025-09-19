@@ -54,7 +54,7 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html>
+		<html lang="sv">
 			<body
 				className={`${ubuntuMono.variable} ${ubuntuSans.variable} antialiased`}
 			>

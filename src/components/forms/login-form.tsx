@@ -1,6 +1,7 @@
 "use client";
 
 import { login } from "@/actions";
+import { KeyRoundIcon } from "lucide-react";
 import { useActionState } from "react";
 import { SubmitButton } from "./submit-button";
 
@@ -10,11 +11,10 @@ export const LoginForm = () => {
 		errored: false,
 	});
 
+	// TODO: Loading UI
+
 	return (
-		<form
-			className="flex flex-col items-center justify-center max-w-md mx-auto mt-8 gap-2 lg:mt-16"
-			action={formAction}
-		>
+		<form className="mt-8 lg:mt-16" action={formAction}>
 			<input
 				aria-placeholder="User ID"
 				placeholder="Släng in ditt genererade ID"
@@ -25,7 +25,8 @@ export const LoginForm = () => {
 				aria-invalid={state.errored}
 				required
 			/>
-			<SubmitButton className="w-full p-2 px-8 bg-green-600 text-neutral-100 rounded font-semibold cursor-pointer aria-disabled:opacity-50 aria-disabled:cursor-not-allowed">
+			<SubmitButton className="w-full mt-2 p-2 px-8 flex justify-center gap-2 bg-green-600 text-neutral-100 hover:bg-green-700 hover:shadow transition-all rounded font-semibold cursor-pointer aria-disabled:opacity-50 aria-disabled:cursor-not-allowed">
+				<KeyRoundIcon />
 				Logga in
 			</SubmitButton>
 			<p aria-live="polite" role="status" className="text-red-500">

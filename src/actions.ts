@@ -4,10 +4,11 @@ import { CourseInfo, FormStateResponse } from "@/types";
 import { CodeValidation, CourseValidation } from "@/validators";
 import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import z from "zod";
 import { setToken, verifySession } from "./session";
+import { v4 } from "uuid";
 
 const client = new PrismaClient();
 
@@ -42,6 +43,64 @@ export const login = async (_, formData: FormData) => {
 	await setToken({
 		userId: parsed.data.userId,
 		scheduleLink: user.scheduleLink,
+	});
+
+	redirect("/schedule");
+};
+
+export const signup = async (_, formData: FormData) => {
+	const cfTurnstileResponse = formData.get("cf-turnstile-response") as string;
+
+	const reqHeaders = await headers();
+	const ip = reqHeaders.get("x-real-ip");
+
+	const verifyFormData = new FormData();
+	verifyFormData.append("secret", process.env.TURNSTILE_SECRET_KEY);
+	verifyFormData.append("response", String(cfTurnstileResponse));
+	verifyFormData.append("remoteip", String(ip));
+
+	const url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+
+	try {
+		const result = await fetch(url, {
+			body: verifyFormData,
+			method: "POST",
+		});
+
+		const outcome = await result.json();
+		if (!outcome.success) {
+			return {
+				message: "CAPTCHA misslyckades.",
+			};
+		}
+	} catch (err) {
+		console.log(err);
+
+		return {
+			message: "Unable to verify CAPTCHA",
+		};
+	}
+
+	const userId = v4();
+	const parsed = z
+		.object({
+			scheduleLink: z.url({ hostname: /^cloud\.timeedit\.net$/ }),
+		})
+		.safeParse({ scheduleLink: formData.get("scheduleLink") });
+
+	if (!parsed.success) {
+		return {
+			message: "Någonting är fel med länken.",
+		};
+	}
+
+	await client.user.create({
+		data: { scheduleLink: parsed.data.scheduleLink, userId },
+	});
+
+	await setToken({
+		userId: userId,
+		scheduleLink: parsed.data.scheduleLink,
 	});
 
 	redirect("/schedule");

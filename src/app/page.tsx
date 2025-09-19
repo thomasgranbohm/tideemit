@@ -1,5 +1,7 @@
 import { LoginForm } from "@/components/forms/login-form";
+import { UserRoundIcon } from "lucide-react";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
 	title: "TideEmit",
@@ -17,7 +19,16 @@ export default async function Home() {
 					För att TimeEdit suger...
 				</p>
 			</div>
-			<LoginForm />
+			<div className="max-w-md mx-auto">
+				<LoginForm />
+				<Link
+					className="w-full mt-2 p-2 px-8 flex justify-center gap-2 border-2 border-green-600  text-green-600 bg-white hover:border-green-600 hover:text-green-600 hover:shadow transition-all rounded font-semibold"
+					href="/signup"
+				>
+					<UserRoundIcon />
+					Skapa ett konto
+				</Link>
+			</div>
 		</div>
 	);
 }
