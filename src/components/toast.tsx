@@ -31,7 +31,7 @@ export const Toast = ({
 								<p aria-live="polite" role="status">
 									<CheckIcon
 										size={16}
-										className="inline me-2 text-4xl text-green-600"
+										className="inline me-2 text-4xl text-emerald-600"
 									/>
 									{children}
 								</p>

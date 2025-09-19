@@ -77,7 +77,7 @@ const CourseCreator = () => {
 			<div className="flex flex-col sm:flex-row-reverse sm:justify-between sm:items-center md:flex-col md:items-start lg:flex-row-reverse lg:justify-between lg:items-center ">
 				<button
 					title="Ta bort kurs"
-					className="p-3 px-4 w-full text-center mt-2 font-sans rounded cursor-pointer flex items-center justify-center gap-2 bg-green-600 text-white hover:bg-green-700 focus:bg-green-700 active:bg-green-700 aria-disabled:bg-neutral-200 aria-disabled:text-neutral-500 transition-colors sm:w-fit md:w-full lg:w-fit"
+					className="p-3 px-4 w-full text-center mt-2 font-sans rounded cursor-pointer flex items-center justify-center gap-2 bg-emerald-600 text-white hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-700 aria-disabled:bg-neutral-200 aria-disabled:text-neutral-500 transition-colors sm:w-fit md:w-full lg:w-fit"
 					type="submit"
 					aria-disabled={!isValid}
 				>

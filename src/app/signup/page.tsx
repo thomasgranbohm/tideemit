@@ -2,8 +2,8 @@
 
 import { signup } from "@/actions";
 import { SubmitButton } from "@/components/forms/submit-button";
-import { TurnStile } from "@/components/forms/turnstile";
 import { UserRoundIcon } from "lucide-react";
+import { Turnstile } from "next-turnstile";
 import { useActionState } from "react";
 
 const SignupPage = () => {
@@ -34,12 +34,11 @@ const SignupPage = () => {
 						type="text"
 						name="scheduleLink"
 						id="scheduleLink"
-						className="w-full rounded shadow font-mono outline py-2 px-4 aria-[invalid=true]:outline-red-500"
+						className="w-full rounded shadow font-mono border py-2 px-4 aria-[invalid=true]:border-red-500 "
 						aria-invalid={state.errored}
 						required
 					/>
-
-					<SubmitButton className="w-full mt-2 p-2 flex justify-center items-center bg-green-600 text-neutral-100 hover:bg-green-700 hover:shadow transition-all rounded font-semibold cursor-pointer aria-disabled:opacity-50 aria-disabled:cursor-not-allowed">
+					<SubmitButton className="w-full mt-2 p-2 flex justify-center items-center bg-emerald-600 text-neutral-100 hover:bg-emerald-700 hover:shadow transition-all rounded font-semibold cursor-pointer aria-disabled:opacity-50 aria-disabled:cursor-not-allowed">
 						<UserRoundIcon className="me-2" />
 						Skapa ett konto
 					</SubmitButton>
@@ -50,7 +49,9 @@ const SignupPage = () => {
 					>
 						{state.message}
 					</p>
-					<TurnStile />
+					<Turnstile
+						siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+					/>
 				</form>
 			</div>
 		</>

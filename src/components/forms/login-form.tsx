@@ -2,9 +2,9 @@
 
 import { login } from "@/actions";
 import { KeyRoundIcon } from "lucide-react";
+import { Turnstile } from "next-turnstile";
 import { useActionState } from "react";
 import { SubmitButton } from "./submit-button";
-import { TurnStile } from "./turnstile";
 
 export const LoginForm = () => {
 	const [state, formAction] = useActionState(login, {
@@ -26,14 +26,14 @@ export const LoginForm = () => {
 				aria-invalid={state.errored}
 				required
 			/>
-			<SubmitButton className="w-full mt-2 p-2 px-8 flex justify-center gap-2 bg-green-600 text-neutral-100 hover:bg-green-700 hover:shadow transition-all rounded font-semibold cursor-pointer aria-disabled:opacity-50 aria-disabled:cursor-not-allowed">
+			<SubmitButton className="w-full mt-2 p-2 px-8 flex justify-center gap-2 bg-emerald-600 text-neutral-100 hover:bg-emerald-700 hover:shadow transition-all rounded font-semibold cursor-pointer aria-disabled:opacity-50 aria-disabled:cursor-not-allowed">
 				<KeyRoundIcon />
 				Logga in
 			</SubmitButton>
 			<p aria-live="polite" role="status" className="text-red-500">
 				{state.message}
 			</p>
-			<TurnStile />
+			<Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} />
 		</form>
 	);
 };
