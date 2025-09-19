@@ -11,7 +11,7 @@ export const CourseList = async () => {
 			))}
 		</ul>
 	) : (
-		<p className="mt-2 font-sans">
+		<p className="mt-2 font-sans text-neutral-700 dark:text-neutral-300">
 			Du har för närvarande inga kurser. Du kan lägga till din första kurs
 			nedan!
 		</p>

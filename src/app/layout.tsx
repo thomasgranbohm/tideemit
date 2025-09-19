@@ -56,7 +56,7 @@ export default async function RootLayout({
 	return (
 		<html lang="sv">
 			<body
-				className={`${ubuntuMono.variable} ${ubuntuSans.variable} antialiased`}
+				className={`${ubuntuMono.variable} ${ubuntuSans.variable} antialiased dark:bg-neutral-900`}
 			>
 				<div className="relative min-h-dvh grid grid-rows-[1fr_auto]">
 					<main>{children}</main>

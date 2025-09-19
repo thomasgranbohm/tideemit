@@ -22,11 +22,11 @@ export const LoginForm = () => {
 				type="text"
 				name="userId"
 				id="userId"
-				className="w-full rounded shadow font-mono border py-2 px-4 aria-[invalid=true]:border-red-500"
+				className="w-full rounded shadow font-mono border border-neutral-400 dark:border-neutral-600 text-black dark:text-neutral-50 py-2 px-4 aria-[invalid=true]:border-red-500"
 				aria-invalid={state.errored}
 				required
 			/>
-			<SubmitButton className="w-full mt-2 p-2 px-8 flex justify-center gap-2 bg-emerald-600 text-neutral-100 hover:bg-emerald-700 hover:shadow transition-all rounded font-semibold cursor-pointer aria-disabled:opacity-50 aria-disabled:cursor-not-allowed">
+			<SubmitButton className="w-full mt-2 p-2 px-8 flex justify-center gap-2 bg-emerald-600 dark:bg-emerald-500 text-neutral-100 dark:text-neutral-900 hover:bg-emerald-700 dark:hover:bg-emerald-600 hover:shadow transition-all rounded font-semibold cursor-pointer aria-disabled:opacity-50 aria-disabled:cursor-not-allowed">
 				<KeyRoundIcon />
 				Logga in
 			</SubmitButton>

@@ -50,23 +50,29 @@ const CourseCreator = () => {
 			}}
 			className="mt-2"
 		>
-			<div className="pt-4 relative bg-neutral-50 border border-neutral-400 rounded">
-				<label htmlFor="code" className="ms-4 mt-4 font-sans text-bold">
+			<div className="pt-4 relative bg-neutral-50 dark:bg-neutral-900 border border-neutral-400 dark:border-neutral-600 rounded">
+				<label
+					htmlFor="code"
+					className="ms-4 mt-4 font-sans text-bold text-black dark:text-neutral-50"
+				>
 					Kurskod
 				</label>
 				<input
-					className="block p-4 font-mono w-full"
+					className="block p-4 font-mono w-full  text-black dark:text-neutral-50"
 					{...register("code")}
 					required
 					type="text"
 					name="code"
 					placeholder="TATB01"
 				/>
-				<label htmlFor="name" className="ms-4 mt-4 font-sans text-bold">
+				<label
+					htmlFor="name"
+					className="ms-4 mt-4 font-sans text-bold text-black dark:text-neutral-50"
+				>
 					Kursnamn
 				</label>
 				<input
-					className="block p-4  w-full"
+					className="block p-4 w-full text-black dark:text-neutral-50"
 					type="text"
 					name="name"
 					id="name"
@@ -77,7 +83,7 @@ const CourseCreator = () => {
 			<div className="flex flex-col sm:flex-row-reverse sm:justify-between sm:items-center md:flex-col md:items-start lg:flex-row-reverse lg:justify-between lg:items-center ">
 				<button
 					title="Ta bort kurs"
-					className="p-3 px-4 w-full text-center mt-2 font-sans rounded cursor-pointer flex items-center justify-center gap-2 bg-emerald-600 text-white hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-700 aria-disabled:bg-neutral-200 aria-disabled:text-neutral-500 transition-colors sm:w-fit md:w-full lg:w-fit"
+					className="p-3 px-4 w-full text-center mt-2 font-sans rounded cursor-pointer flex items-center justify-center gap-2 bg-emerald-600 text-white hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-700 aria-disabled:bg-neutral-200 dark:aria-disabled:bg-neutral-500 aria-disabled:text-neutral-500 dark:aria-disabled:text-neutral-300 transition-colors sm:w-fit md:w-full lg:w-fit"
 					type="submit"
 					aria-disabled={!isValid}
 				>

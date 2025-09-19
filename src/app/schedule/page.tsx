@@ -10,7 +10,7 @@ const SchedulePage = async () => {
 		<div className="max-w-screen md:max-w-8xl">
 			<div className="mx-auto px-4 sm:max-w-xl lg:max-w-2xl">
 				<header className="max-w-2xl mx-auto my-6">
-					<h1 className="text-center text-4xl lg:text-5xl font-bold">
+					<h1 className="text-center text-black dark:text-neutral-50 text-4xl lg:text-5xl font-bold">
 						TideEmit
 					</h1>
 				</header>
@@ -24,11 +24,15 @@ const SchedulePage = async () => {
 				</section>
 				<section className="not-md:mt-8">
 					<div>
-						<h2 className="text-xl font-bold">Dina kurser</h2>
+						<h2 className="text-xl font-bold text-black dark:text-neutral-50">
+							Dina kurser
+						</h2>
 						<CourseList />
 					</div>
 					<div className="mt-6">
-						<h2 className="text-xl font-bold">Lägg till kurs</h2>
+						<h2 className="text-xl font-bold text-black dark:text-neutral-50">
+							Lägg till kurs
+						</h2>
 						<CourseCreator />
 					</div>
 				</section>

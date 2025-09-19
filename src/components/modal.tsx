@@ -63,7 +63,7 @@ export const Modal = ({
 						type: "spring",
 						bounce: 0.3,
 					}}
-					className="mx-auto p-4 overflow-x-hidden sm:max-w-2xl bg-white border shadow border-neutral-400 rounded z-10"
+					className="mx-auto p-4 overflow-x-hidden sm:max-w-2xl bg-white dark:bg-neutral-900 border shadow border-neutral-400 dark:border-neutral-600 rounded z-10"
 				>
 					{children}
 				</motion.div>

@@ -36,21 +36,23 @@ export const UserInformation = ({
 	return (
 		<Fragment>
 			<div>
-				<h2 className="text-xl font-bold">Ditt användar-ID</h2>
+				<h2 className="text-xl font-bold text-black dark:text-neutral-50">
+					Ditt användar-ID
+				</h2>
 				<CopyInput value={userId}>Kopierade användar-ID!</CopyInput>
-				<p className="mt-2 text-neutral-700 font-sans">
+				<p className="mt-2 text-neutral-700 dark:text-neutral-300 font-sans">
 					Typiskt viktigt att spara på nåt vänster!
 				</p>
 			</div>
 			<div className="mt-6">
-				<h2 className="text-xl font-bold">
+				<h2 className="text-xl font-bold text-black dark:text-neutral-50">
 					Din{" "}
 					<span className="relative">
 						<span
-							className="absolute -inset-1 block -skew-y-6 rotate-6 bg-[#FF9DBF] -z-10"
+							className="absolute -inset-1 block -skew-y-6 rotate-6 bg-[#FF9DBF] dark:bg-[#e2709a] -z-10"
 							aria-hidden="true"
 						></span>
-						<span className="relative text-[#760032]">
+						<span className="relative text-[#760032] dark:text-[#30101c]">
 							TideEmit-länk
 						</span>
 					</span>
@@ -71,25 +73,25 @@ export const UserInformation = ({
 			</button>
 
 			<Modal open={open} setOpen={setOpen}>
-				<h2 className="text-xl font-bold">
+				<h2 className="text-xl font-bold text-black dark:text-neutral-50">
 					Uppdatera din TimeEdit-länk
 				</h2>
-				<p className="mt-2 text-neutral-700  font-sans">
+				<p className="mt-2 text-neutral-700 dark:text-neutral-300 font-sans">
 					Här kan du uppdatera din länk från TimeEdit, till exempel
 					vid terminsbyte eller liknande.
 				</p>
-				<h3 className="text-md font-bold mt-4">
+				<h3 className="text-md font-bold mt-4 text-black dark:text-neutral-50">
 					Din nuvarande TimeEdit-länk
 				</h3>
-				<div className="mt-2 overflow-x-hidden relative border border-neutral-400 rounded">
-					<p className="p-4 bg-neutral-50 overflow-auto whitespace-nowrap text-nowrap select-all font-mono text-neutral-600 z-0 before:absolute before:top-3 before:bottom-3 before:left-0 before:w-4 before:bg-linear-to-r before:via-50% before:from-neutral-50 before:via-neutral-50 before:to-transparent after:absolute after:top-3 after:bottom-3 after:right-0 after:w-4 after:bg-linear-to-l after:via-50% after:from-neutral-50 after:via-neutral-50 after:to-transparent after:z-10 after:block">
+				<div className="mt-2 overflow-x-hidden relative border border-neutral-400 dark:border-neutral-600 rounded">
+					<p className="p-4 bg-neutral-50 dark:bg-neutral-900 overflow-auto whitespace-nowrap text-nowrap select-all font-mono text-neutral-600 dark:text-neutral-200 z-0 before:absolute before:top-3 before:bottom-3 before:left-0 before:w-4 before:bg-linear-to-r before:via-50% before:from-neutral-50 before:via-neutral-50 dark:before:from-neutral-900 dark:before:via-neutral-900 before:to-transparent after:absolute after:top-3 after:bottom-3 after:right-0 after:w-4 after:bg-linear-to-l after:via-50% after:from-neutral-50 after:via-neutral-50 dark:after:from-neutral-900 dark:after:via-neutral-900 after:to-transparent after:z-10 after:block">
 						{scheduleLink}
 					</p>
 				</div>
 
 				<form action={formAction}>
 					<label htmlFor="scheduleLink">
-						<h3 className="text-md font-bold mt-4">
+						<h3 className="text-md font-bold mt-4 text-black dark:text-neutral-50">
 							Din nya TimeEdit-länk
 						</h3>
 					</label>
@@ -98,7 +100,7 @@ export const UserInformation = ({
 						name="scheduleLink"
 						required
 						placeholder="https://cloud.timeedit.net/liu/web/schema/..."
-						className="mt-2 p-4 bg-neutral-50 w-full block font-mono border border-neutral-400 rounded"
+						className="mt-2 p-4 bg-neutral-50 dark:bg-neutral-900 text-black text-neutral-50 w-full block font-mono border border-neutral-400 dark:border-neutral-600 rounded"
 					/>
 					<div className="flex flex-col mt-2 sm:flex-row sm:justify-between sm:items-center md:flex-col md:items-start lg:flex-row lg:justify-between lg:items-center">
 						<p
