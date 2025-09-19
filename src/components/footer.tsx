@@ -3,12 +3,9 @@ export const Footer = () => (
 		<p className="text-sm text-center">
 			Är det något som strular? <br />
 			Mejla mig på{" "}
-			<a
-				className="text-blue-600 hover:underline"
-				href="mailto:thomas@granbohm.rocks"
-			>
-				thomas@granbohm.rocks
-			</a>{" "}
+			<span className="inline-block">
+				thomas [snabel-a] granbohm [punkt] rocks
+			</span>{" "}
 			eller{" "}
 			<a
 				className="inline-block text-blue-600 hover:underline"

@@ -14,7 +14,7 @@ const SignupPage = () => {
 
 	return (
 		<>
-			<div className="mx-auto max-w-8xl px-4 pt-16 md:pt-48 lg:pt-64">
+			<div className="mx-auto max-w-8xl px-4 pt-32 md:pt-48 lg:pt-64 xl:pt-72">
 				<div className="max-w-2xl mx-auto">
 					<h1 className="mt-4 font-sans font-bold center text-center text-6xl sm:text-8xl lg:text-9xl ">
 						TideEmit
@@ -24,10 +24,7 @@ const SignupPage = () => {
 					</p>
 				</div>
 
-				<form
-					className="max-w-md mx-auto mt-8 lg:mt-16"
-					action={formAction}
-				>
+				<form className="max-w-md mx-auto mt-4" action={formAction}>
 					<input
 						aria-placeholder="TimeEdit-länk"
 						placeholder="Släng in din TimeEdit-länk"

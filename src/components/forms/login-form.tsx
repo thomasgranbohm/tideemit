@@ -15,7 +15,7 @@ export const LoginForm = () => {
 	// TODO: Loading UI
 
 	return (
-		<form className="mt-8 lg:mt-16" action={formAction}>
+		<form action={formAction}>
 			<input
 				aria-placeholder="User ID"
 				placeholder="Släng in ditt genererade ID"
