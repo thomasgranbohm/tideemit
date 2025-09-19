@@ -1,7 +1,11 @@
 "use server";
 
 import { CourseInfo, FormStateResponse } from "@/types";
-import { CodeValidation, CourseValidation } from "@/validators";
+import {
+	CodeValidation,
+	CourseValidation,
+	TimeEditLinkValidation,
+} from "@/validators";
 import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { cookies, headers } from "next/headers";
@@ -84,7 +88,7 @@ export const signup = async (_, formData: FormData) => {
 	const userId = v4();
 	const parsed = z
 		.object({
-			scheduleLink: z.url({ hostname: /^cloud\.timeedit\.net$/ }),
+			scheduleLink: TimeEditLinkValidation,
 		})
 		.safeParse({ scheduleLink: formData.get("scheduleLink") });
 
@@ -116,7 +120,7 @@ export const updateSchedule = async (_, formData: FormData) => {
 
 	const parsed = z
 		.object({
-			scheduleLink: z.url({ hostname: /^cloud\.timeedit\.net$/ }),
+			scheduleLink: TimeEditLinkValidation,
 		})
 		.safeParse({ scheduleLink: formData.get("scheduleLink") });
 

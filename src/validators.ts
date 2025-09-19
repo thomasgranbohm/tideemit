@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+export const TimeEditLinkValidation = z.url({
+	pattern: /^https:\/\/cloud\.timeedit\.net\/liu\/web\/schema\//,
+});
+
 export const CodeValidation = z
 	.string("Kurskoden måste vara text")
 	.min(6, "Kurskoden är för kort")

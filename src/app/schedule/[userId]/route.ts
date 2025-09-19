@@ -19,7 +19,9 @@ export const GET = async (
 		return new Response(null, { status: 404 });
 	}
 
-	const resp = await axios.get(user.scheduleLink.replace(".ics", ".json"));
+	const scheduleLink = new URL(user.scheduleLink);
+	scheduleLink.pathname = scheduleLink.pathname.replace(/\.ics$/, ".json");
+	const resp = await axios.get(scheduleLink.toString());
 
 	const parsed = await z
 		.object({
