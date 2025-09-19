@@ -100,7 +100,7 @@ export const UserInformation = ({
 						name="scheduleLink"
 						required
 						placeholder="https://cloud.timeedit.net/liu/web/schema/..."
-						className="bg-background mt-2 block w-full rounded border border-neutral-400 p-4 font-mono text-black text-neutral-50 dark:border-neutral-600"
+						className="bg-background mt-2 block w-full rounded border border-neutral-400 p-4 font-mono text-black dark:border-neutral-600 dark:text-neutral-50"
 					/>
 					<div className="mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between md:flex-col md:items-start lg:flex-row lg:items-center lg:justify-between">
 						<p
