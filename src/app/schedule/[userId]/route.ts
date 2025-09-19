@@ -10,7 +10,7 @@ import { z } from "zod";
 
 export const GET = async (
 	_: Request,
-	{ params }: { params: Promise<{ userId: string }> }
+	{ params }: { params: Promise<{ userId: string }> },
 ) => {
 	const { userId } = await params;
 
@@ -52,7 +52,7 @@ export const GET = async (
 					startdate,
 					enddate,
 					columns,
-				})
+				}),
 			),
 		});
 
@@ -77,7 +77,7 @@ export const GET = async (
 	const renamed_courses = await getCoursesByUserId(userId);
 
 	const map_renamed = new Map(
-		renamed_courses.map(({ code, name }) => [code, name])
+		renamed_courses.map(({ code, name }) => [code, name]),
 	);
 
 	const createDate = (date, time) =>
@@ -130,7 +130,7 @@ export const GET = async (
 			location: columns[location_index],
 			description: createDescription(
 				columns[comment_index],
-				columns[free_group_index]
+				columns[free_group_index],
 			),
 			url: columns[map_index],
 		});

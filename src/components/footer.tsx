@@ -1,6 +1,6 @@
 export const Footer = () => (
-	<footer className="max-w-xl h-min mx-auto py-4 px-2">
-		<p className="text-sm text-center text-black dark:text-neutral-50">
+	<footer className="mx-auto h-min max-w-xl px-2 py-4">
+		<p className="text-center text-sm text-black dark:text-neutral-50">
 			Är det något som strular? <br />
 			Mejla mig på{" "}
 			<span className="inline-block">
@@ -8,7 +8,7 @@ export const Footer = () => (
 			</span>{" "}
 			eller{" "}
 			<a
-				className="inline-block text-blue-600 dark:text-blue-400 hover:underline"
+				className="inline-block text-blue-600 hover:underline dark:text-blue-400"
 				href="https://github.com/thomasgranbohm/tideemit"
 			>
 				hjälp till

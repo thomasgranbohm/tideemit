@@ -47,11 +47,11 @@ export const Modal = ({
 
 	return createPortal(
 		<LazyMotion features={domAnimation}>
-			<div className="fixed top-0 bottom-0 left-0 right-0 z-50 flex justify-center items-center p-4">
+			<div className="fixed top-0 right-0 bottom-0 left-0 z-50 flex items-center justify-center p-4">
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 0.5 }}
-					className="absolute top-0 bottom-0 left-0 right-0 bg-gray-600 opacity-50 z-0"
+					className="absolute top-0 right-0 bottom-0 left-0 z-0 bg-gray-600 opacity-50"
 					onClick={() => setOpen(false)}
 				/>
 				{/* TODO: Ser keeft ut med bakgrunden på mobilen inte alignat */}
@@ -63,12 +63,12 @@ export const Modal = ({
 						type: "spring",
 						bounce: 0.3,
 					}}
-					className="mx-auto p-4 overflow-x-hidden sm:max-w-2xl bg-background border shadow  border-neutral-400 dark:border-neutral-600 rounded z-10"
+					className="bg-background z-10 mx-auto overflow-x-hidden rounded border border-neutral-400 p-4 shadow sm:max-w-2xl dark:border-neutral-600"
 				>
 					{children}
 				</motion.div>
 			</div>
 		</LazyMotion>,
-		document.body
+		document.body,
 	);
 };

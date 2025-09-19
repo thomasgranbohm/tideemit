@@ -16,7 +16,7 @@ export const Toast = ({
 		<LazyMotion features={domAnimation}>
 			{open && (
 				<Portal>
-					<div className="fixed bottom-0 right-0 overflow-x-hidden">
+					<div className="fixed right-0 bottom-0 overflow-x-hidden">
 						<motion.div
 							initial={{ x: "100%" }}
 							animate={{ x: "0%" }}
@@ -27,11 +27,11 @@ export const Toast = ({
 								bounce: 0.3,
 							}}
 						>
-							<div className="m-4 p-4 border border-neutral-400 dark:border-neutral-600 shadow rounded bg-background text-foreground">
+							<div className="bg-background text-foreground m-4 rounded border border-neutral-400 p-4 shadow dark:border-neutral-600">
 								<p aria-live="polite" role="status">
 									<CheckIcon
 										size={16}
-										className="inline me-2 text-4xl text-emerald-600"
+										className="me-2 inline text-4xl text-emerald-600"
 									/>
 									{children}
 								</p>

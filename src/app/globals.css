@@ -1,33 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--background: #ffffff;
+	--foreground: #171717;
 }
 
 @theme inline {
-  --color-background: var(--color-neutral-50);
-  --color-foreground: var(--color-neutral-900);
+	--color-background: var(--color-neutral-50);
+	--color-foreground: var(--color-neutral-900);
 
-  --color-secondary: var(--color-neutral-700);
+	--color-secondary: var(--color-neutral-700);
 
-  --font-sans: var(--font-ubuntu-sans);
-  --font-mono: var(--font-ubuntu-mono);
+	--font-sans: var(--font-ubuntu-sans);
+	--font-mono: var(--font-ubuntu-mono);
 
-  --color-border: var(--color-neutral-400)
+	--color-border: var(--color-neutral-400);
 }
 
 @media (prefers-color-scheme: dark) {
-  @theme inline {
-    --color-background: var(--color-neutral-900);
-    --color-foreground: var(--color-neutral-50);
+	@theme inline {
+		--color-background: var(--color-neutral-900);
+		--color-foreground: var(--color-neutral-50);
 
-    --color-secondary: var(--color-neutral-300);
+		--color-secondary: var(--color-neutral-300);
 
-    --color-border: var(--color-neutral-600)
-  }
+		--color-border: var(--color-neutral-600);
+	}
 }
 
 .lucide {
-  stroke-width: 2;
+	stroke-width: 2;
 }

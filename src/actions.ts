@@ -151,7 +151,7 @@ export const updateSchedule = async (_, formData: FormData) => {
 
 export const createCourse = async (
 	prevState,
-	formData: FormData
+	formData: FormData,
 ): Promise<FormStateResponse<CourseInfo>> => {
 	const session = await verifySession();
 

@@ -7,15 +7,15 @@ const SchedulePage = async () => {
 	const session = await verifySession();
 
 	return (
-		<div className="max-w-screen md:max-w-8xl">
+		<div className="md:max-w-8xl max-w-screen">
 			<div className="mx-auto px-4 sm:max-w-xl lg:max-w-2xl">
-				<header className="max-w-2xl mx-auto my-6">
-					<h1 className="text-center text-black dark:text-neutral-50 text-4xl lg:text-5xl font-bold">
+				<header className="mx-auto my-6 max-w-2xl">
+					<h1 className="text-center text-4xl font-bold text-black lg:text-5xl dark:text-neutral-50">
 						TideEmit
 					</h1>
 				</header>
 			</div>
-			<div className="grid grid-cols-1 auto-rows-auto md:grid-cols-2 md:grid-rows-1 md:gap-8 sm:max-w-2xl md:max-w-3xl lg:max-w-6xl mx-auto px-4">
+			<div className="mx-auto grid auto-rows-auto grid-cols-1 px-4 sm:max-w-2xl md:max-w-3xl md:grid-cols-2 md:grid-rows-1 md:gap-8 lg:max-w-6xl">
 				<section>
 					<div>
 						<h2 className="text-xl font-bold text-black dark:text-neutral-50">

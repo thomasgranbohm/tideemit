@@ -44,21 +44,21 @@ const CourseCreator = () => {
 				evt.preventDefault();
 				handleSubmit(() => {
 					startTransition(() =>
-						action(new FormData(evt.target as HTMLFormElement))
+						action(new FormData(evt.target as HTMLFormElement)),
 					);
 				})(evt);
 			}}
 			className="mt-2"
 		>
-			<div className="pt-4 relative bg-background border border-neutral-400 dark:border-neutral-600 rounded">
+			<div className="bg-background relative rounded border border-neutral-400 pt-4 dark:border-neutral-600">
 				<label
 					htmlFor="code"
-					className="ms-4 mt-4 font-sans text-bold text-black dark:text-neutral-50"
+					className="text-bold ms-4 mt-4 font-sans text-black dark:text-neutral-50"
 				>
 					Kurskod
 				</label>
 				<input
-					className="block p-4 font-mono w-full  text-black dark:text-neutral-50"
+					className="block w-full p-4 font-mono text-black dark:text-neutral-50"
 					{...register("code")}
 					required
 					type="text"
@@ -67,12 +67,12 @@ const CourseCreator = () => {
 				/>
 				<label
 					htmlFor="name"
-					className="ms-4 mt-4 font-sans text-bold text-black dark:text-neutral-50"
+					className="text-bold ms-4 mt-4 font-sans text-black dark:text-neutral-50"
 				>
 					Kursnamn
 				</label>
 				<input
-					className="block p-4 w-full text-black dark:text-neutral-50"
+					className="block w-full p-4 text-black dark:text-neutral-50"
 					type="text"
 					name="name"
 					id="name"
@@ -80,10 +80,10 @@ const CourseCreator = () => {
 					{...register("name")}
 				/>
 			</div>
-			<div className="flex flex-col sm:flex-row-reverse sm:justify-between sm:items-center md:flex-col md:items-start lg:flex-row-reverse lg:justify-between lg:items-center ">
+			<div className="flex flex-col sm:flex-row-reverse sm:items-center sm:justify-between md:flex-col md:items-start lg:flex-row-reverse lg:items-center lg:justify-between">
 				<button
 					title="Ta bort kurs"
-					className="p-3 px-4 w-full sm:w-fit md:w-full lg:w-fit text-center mt-2 font-sans rounded cursor-pointer flex items-center justify-center gap-2 bg-emerald-600 text-white hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-700 aria-disabled:bg-neutral-200 dark:aria-disabled:bg-neutral-500 aria-disabled:text-neutral-500 dark:aria-disabled:text-neutral-300 transition-colors"
+					className="mt-2 flex w-full cursor-pointer items-center justify-center gap-2 rounded bg-emerald-600 p-3 px-4 text-center font-sans text-white transition-colors hover:bg-emerald-700 focus:bg-emerald-700 active:bg-emerald-700 aria-disabled:bg-neutral-200 aria-disabled:text-neutral-500 sm:w-fit md:w-full lg:w-fit dark:aria-disabled:bg-neutral-500 dark:aria-disabled:text-neutral-300"
 					type="submit"
 					aria-disabled={!isValid}
 				>
@@ -92,7 +92,7 @@ const CourseCreator = () => {
 				</button>
 
 				{errors?.name && (
-					<p className="text-red-500 mt-2 sm:mt-0 md:mt-2">
+					<p className="mt-2 text-red-500 sm:mt-0 md:mt-2">
 						{errors.name.message}
 					</p>
 				)}

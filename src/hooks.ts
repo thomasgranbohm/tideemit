@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useNotificationTimer = (
-	callback?: () => void
+	callback?: () => void,
 ): [boolean, () => void] => {
 	const timerRef = useRef(0);
 	const [open, setOpen] = useState(false);
