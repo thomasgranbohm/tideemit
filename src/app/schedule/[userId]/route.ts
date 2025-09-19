@@ -1,17 +1,22 @@
 // TODO: Cache the response if the TimeEdit schedule hasn't change or if the user hasn't changed any settings
 // https://nextjs.org/docs/app/getting-started/route-handlers-and-middleware#caching
 
-import axios from "axios";
-import { DateTime } from "luxon";
-import ical from "ical-generator";
-import { z } from "zod";
 import { getCoursesByUserId, getUser } from "@/actions";
+import axios from "axios";
+import ical from "ical-generator";
+import { DateTime } from "luxon";
+import { permanentRedirect } from "next/navigation";
+import { z } from "zod";
 
 export const GET = async (
 	_: Request,
 	{ params }: { params: Promise<{ userId: string }> }
 ) => {
 	const { userId } = await params;
+
+	if (!userId.endsWith(".ics")) {
+		permanentRedirect(`/schedule/${userId}.ics`);
+	}
 
 	const user = await getUser(userId);
 

@@ -22,7 +22,7 @@ export const LoginForm = () => {
 				type="text"
 				name="userId"
 				id="userId"
-				className="w-full rounded shadow font-mono outline py-2 px-4 aria-[invalid=true]:outline-red-500"
+				className="w-full rounded shadow font-mono border py-2 px-4 aria-[invalid=true]:border-red-500"
 				aria-invalid={state.errored}
 				required
 			/>
