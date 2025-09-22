@@ -16,10 +16,10 @@ const SignupPage = () => {
 		<>
 			<div className="max-w-8xl mx-auto px-4 pt-32 md:pt-48 lg:pt-64 xl:pt-72">
 				<div className="mx-auto max-w-2xl">
-					<h1 className="center mt-4 text-center font-sans text-6xl font-bold sm:text-8xl lg:text-9xl">
+					<h1 className="center mt-4 text-center font-sans text-6xl font-bold text-neutral-900 sm:text-8xl lg:text-9xl dark:text-neutral-50">
 						TideEmit
 					</h1>
-					<p className="text-center font-sans text-lg text-neutral-600 italic lg:text-2xl">
+					<p className="text-center font-sans text-lg text-neutral-700 italic lg:text-2xl dark:text-neutral-300">
 						För att TimeEdit suger...
 					</p>
 				</div>
@@ -31,7 +31,7 @@ const SignupPage = () => {
 						type="text"
 						name="scheduleLink"
 						id="scheduleLink"
-						className="w-full rounded border px-4 py-2 font-mono shadow aria-[invalid=true]:border-red-500"
+						className="w-full rounded border border-neutral-400 px-4 py-2 font-mono text-neutral-900 shadow aria-[invalid=true]:border-red-500 dark:text-neutral-50"
 						aria-invalid={state.errored}
 						required
 					/>
