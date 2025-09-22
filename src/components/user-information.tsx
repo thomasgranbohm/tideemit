@@ -58,7 +58,7 @@ export const UserInformation = ({
 					</span>
 				</h2>
 				<CopyInput
-					value={`${process.env.NEXT_PUBLIC_URL}/schedule/${userId}.ics`}
+					value={`${process.env.NEXT_PUBLIC_URL}/schedule/${userId}`}
 				>
 					Kopierade länken!
 				</CopyInput>
