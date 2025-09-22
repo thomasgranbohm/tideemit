@@ -1,33 +1,27 @@
 @import "tailwindcss";
 
-:root {
-	--background: #ffffff;
-	--foreground: #171717;
-}
-
 @theme inline {
-	--color-background: var(--color-neutral-50);
-	--color-foreground: var(--color-neutral-900);
-
-	--color-secondary: var(--color-neutral-700);
-
 	--font-sans: var(--font-ubuntu-sans);
 	--font-mono: var(--font-ubuntu-mono);
-
-	--color-border: var(--color-neutral-400);
-}
-
-@media (prefers-color-scheme: dark) {
-	@theme inline {
-		--color-background: var(--color-neutral-900);
-		--color-foreground: var(--color-neutral-50);
-
-		--color-secondary: var(--color-neutral-300);
-
-		--color-border: var(--color-neutral-600);
-	}
 }
 
 .lucide {
 	stroke-width: 2;
 }
+
+/* If the user prefers dark mode, 
+we of course apply color-scheme: dark, as usual */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* If the user prefers light mode, 
+we still enforce color-scheme: dark, despite the user preference */
+@media (prefers-color-scheme: light) {
+  html {
+    color-scheme: dark;
+  }
+}
+

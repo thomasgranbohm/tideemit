@@ -12,10 +12,10 @@ export default async function Home() {
 	return (
 		<div className="max-w-8xl mx-auto px-4 pt-32 md:pt-48 lg:pt-64 xl:pt-72">
 			<div className="mx-auto max-w-2xl">
-				<h1 className="center mt-4 text-center font-sans text-6xl font-bold sm:text-8xl lg:text-9xl dark:text-neutral-100">
+				<h1 className="center mt-4 text-center font-sans text-6xl font-bold text-neutral-900 sm:text-8xl lg:text-9xl dark:text-neutral-50">
 					TideEmit
 				</h1>
-				<p className="text-secondary text-center font-sans text-lg italic lg:text-2xl">
+				<p className="text-center font-sans text-lg text-neutral-700 italic lg:text-2xl dark:text-neutral-300">
 					För att TimeEdit suger...
 				</p>
 			</div>

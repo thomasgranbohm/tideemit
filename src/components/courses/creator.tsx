@@ -50,15 +50,15 @@ const CourseCreator = () => {
 			}}
 			className="mt-2"
 		>
-			<div className="bg-background relative rounded border border-neutral-400 pt-4 dark:border-neutral-600">
+			<div className="relative rounded border border-neutral-400 bg-neutral-50 pt-4 dark:border-neutral-600 dark:bg-neutral-900">
 				<label
 					htmlFor="code"
-					className="text-bold ms-4 mt-4 font-sans text-black dark:text-neutral-50"
+					className="text-bold ms-4 mt-4 font-sans text-neutral-900 dark:text-neutral-50"
 				>
 					Kurskod
 				</label>
 				<input
-					className="block w-full p-4 font-mono text-black dark:text-neutral-50"
+					className="block w-full p-4 font-mono text-neutral-900 dark:text-neutral-50"
 					{...register("code")}
 					required
 					type="text"
@@ -67,12 +67,12 @@ const CourseCreator = () => {
 				/>
 				<label
 					htmlFor="name"
-					className="text-bold ms-4 mt-4 font-sans text-black dark:text-neutral-50"
+					className="text-bold ms-4 mt-4 font-sans text-neutral-900 dark:text-neutral-50"
 				>
 					Kursnamn
 				</label>
 				<input
-					className="block w-full p-4 text-black dark:text-neutral-50"
+					className="block w-full p-4 text-neutral-900 dark:text-neutral-50"
 					type="text"
 					name="name"
 					id="name"

@@ -5,7 +5,6 @@ import { getCoursesByUserId, getUser } from "@/actions";
 import axios from "axios";
 import ical from "ical-generator";
 import { DateTime } from "luxon";
-import { permanentRedirect } from "next/navigation";
 import { z } from "zod";
 
 export const GET = async (
@@ -13,14 +12,9 @@ export const GET = async (
 	{ params }: { params: Promise<{ userId: string }> },
 ) => {
 	const { userId } = await params;
-
-	if (!userId.endsWith(".ics")) {
-		permanentRedirect(`/schedule/${userId}.ics`);
-	}
-
 	const user = await getUser(userId);
 
-	if (!user.scheduleLink) {
+	if (!user || !user.scheduleLink) {
 		return new Response(null, { status: 404 });
 	}
 
