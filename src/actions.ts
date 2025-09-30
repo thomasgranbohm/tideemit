@@ -27,7 +27,47 @@ export const getCourses = async () => {
 	return await getCoursesByUserId(session.userId);
 };
 
+const verifyTurnstile = async (formData: FormData) => {
+	const cfTurnstileResponse = formData.get("cf-turnstile-response") as string;
+
+	const reqHeaders = await headers();
+	const ip = reqHeaders.get("x-real-ip");
+
+	const verifyFormData = new FormData();
+	verifyFormData.append("secret", process.env.TURNSTILE_SECRET_KEY);
+	verifyFormData.append("response", String(cfTurnstileResponse));
+	verifyFormData.append("remoteip", String(ip));
+
+	const url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+
+	try {
+		const result = await fetch(url, {
+			body: verifyFormData,
+			method: "POST",
+		});
+
+		const outcome = await result.json();
+		if (!outcome.success) {
+			throw {
+				message: "CAPTCHA misslyckades.",
+			};
+		}
+	} catch (err) {
+		console.log(err);
+
+		throw {
+			message: "Kunde inte verifiera CAPTCHA.",
+		};
+	}
+};
+
 export const login = async (_, formData: FormData) => {
+	try {
+		await verifyTurnstile(formData);
+	} catch ({ message }) {
+		return message;
+	}
+
 	const parsed = z
 		.object({
 			userId: z.string("Not a valid userId"),
@@ -53,36 +93,10 @@ export const login = async (_, formData: FormData) => {
 };
 
 export const signup = async (_, formData: FormData) => {
-	const cfTurnstileResponse = formData.get("cf-turnstile-response") as string;
-
-	const reqHeaders = await headers();
-	const ip = reqHeaders.get("x-real-ip");
-
-	const verifyFormData = new FormData();
-	verifyFormData.append("secret", process.env.TURNSTILE_SECRET_KEY);
-	verifyFormData.append("response", String(cfTurnstileResponse));
-	verifyFormData.append("remoteip", String(ip));
-
-	const url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
-
 	try {
-		const result = await fetch(url, {
-			body: verifyFormData,
-			method: "POST",
-		});
-
-		const outcome = await result.json();
-		if (!outcome.success) {
-			return {
-				message: "CAPTCHA misslyckades.",
-			};
-		}
-	} catch (err) {
-		console.log(err);
-
-		return {
-			message: "Unable to verify CAPTCHA",
-		};
+		await verifyTurnstile(formData);
+	} catch ({ message }) {
+		return message;
 	}
 
 	const userId = v4();

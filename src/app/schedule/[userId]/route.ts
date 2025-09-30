@@ -91,9 +91,14 @@ export const GET = async (
 		return s.join(" - ");
 	};
 
-	const createDescription = (comment, free_group) => {
+	const createDescription = (comment, free_group, exists) => {
 		const description = [];
 
+		if (exists == false) {
+			description.push(
+				"Den här kursen finns inte inlagd i din TideEmit-profil!",
+			);
+		}
 		if (free_group?.length > 0) {
 			description.push(free_group);
 		}
@@ -111,10 +116,10 @@ export const GET = async (
 		const codes = new Set(course_code.split(", "));
 		const overlap = codes.intersection(map_renamed);
 
-		const course_name =
-			overlap.size == 1
-				? map_renamed.get(Array.from(overlap).pop())
-				: course_code;
+		const exists = overlap.size >= 1;
+		const course_name = exists
+			? map_renamed.get(Array.from(overlap).pop())
+			: course_code;
 
 		calendar.createEvent({
 			id,
@@ -125,6 +130,7 @@ export const GET = async (
 			description: createDescription(
 				columns[comment_index],
 				columns[free_group_index],
+				exists,
 			),
 			url: columns[map_index],
 		});
