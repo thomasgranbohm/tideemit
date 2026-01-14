@@ -45,26 +45,6 @@ export const verifySession = cache(async () => {
 	};
 });
 
-export const updateSession = async (request: NextRequest) => {
-	const session = request.cookies.get("session")?.value;
-
-	if (!session) return;
-
-	const parsed = await decrypt(session);
-	const res = NextResponse.next();
-
-	parsed.expires = new Date(Date.now() + 10 * 60 * 1000);
-
-	res.cookies.set({
-		name: "session",
-		value: await encrypt(parsed),
-		httpOnly: true,
-		expires: parsed.expires,
-	});
-
-	return res;
-};
-
 export const setToken = async ({
 	userId,
 	scheduleLink,
