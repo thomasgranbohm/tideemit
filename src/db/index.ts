@@ -1,12 +1,20 @@
-import { drizzle } from "drizzle-orm/libsql";
-import { courseSchema, userSchema } from "./schema";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { and, eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/d1";
+import { cache } from "react";
 import { v4 } from "uuid";
+import * as schema from "./schema";
+import { courseSchema, userSchema } from "./schema";
 
-const client = drizzle(process.env.DATABASE_URL!);
+export const getDatabase = cache(async () => {
+	const { env } = await getCloudflareContext({ async: true });
+	return drizzle(env.DATABASE, { schema });
+});
 
 export const createUser = async (scheduleLink: string) => {
-	const userIds = await client
+	const db = await getDatabase();
+
+	const userIds = await db
 		.insert(userSchema)
 		.values({ userId: v4(), scheduleLink })
 		.returning({ userId: userSchema.userId });
@@ -15,7 +23,9 @@ export const createUser = async (scheduleLink: string) => {
 };
 
 export const getUser = async (userId: string) => {
-	const users = await client
+	const db = await getDatabase();
+
+	const users = await db
 		.select()
 		.from(userSchema)
 		.where(eq(userSchema.userId, userId))
@@ -25,7 +35,9 @@ export const getUser = async (userId: string) => {
 };
 
 export const updateUser = async (userId: string, scheduleLink: string) => {
-	const users = await client
+	const db = await getDatabase();
+
+	const users = await db
 		.update(userSchema)
 		.set({ scheduleLink })
 		.where(eq(userSchema.userId, userId))
@@ -37,18 +49,24 @@ export const updateUser = async (userId: string, scheduleLink: string) => {
 export const createCourse = async (
 	newCourse: typeof courseSchema.$inferInsert,
 ) => {
-	return client
+	const db = await getDatabase();
+
+	return db
 		.insert(courseSchema)
 		.values(newCourse)
 		.returning({ userId: userSchema.userId });
 };
 
 export const countCourses = async (userId: string) => {
-	return client.$count(courseSchema, eq(courseSchema.userId, userId));
+	const db = await getDatabase();
+
+	return db.$count(courseSchema, eq(courseSchema.userId, userId));
 };
 
 export const deleteCourse = async (userId: string, code: string) => {
-	return client
+	const db = await getDatabase();
+
+	return db
 		.delete(courseSchema)
 		.where(
 			and(eq(courseSchema.code, code), eq(courseSchema.userId, userId)),
@@ -57,7 +75,9 @@ export const deleteCourse = async (userId: string, code: string) => {
 };
 
 export const getCourses = async (userId: string) => {
-	return client
+	const db = await getDatabase();
+
+	return db
 		.select()
 		.from(courseSchema)
 		.where(eq(courseSchema.userId, userId))

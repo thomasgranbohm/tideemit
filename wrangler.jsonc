@@ -1,0 +1,41 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "tideemit-production",
+	"main": ".open-next/worker.js",
+	"compatibility_date": "2026-01-16",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".open-next/assets",
+	},
+	"d1_databases": [
+		{
+			"binding": "DATABASE",
+			"database_name": "tideemit",
+			"database_id": "7ea44afb-690b-41bf-b1af-0c459fb2b86f",
+			"migrations_dir": "drizzle",
+		},
+	],
+	"observability": {
+		"enabled": false,
+		"head_sampling_rate": 1,
+		"logs": {
+			"enabled": true,
+			"head_sampling_rate": 1,
+			"persist": true,
+			"invocation_logs": true,
+		},
+		"traces": {
+			"enabled": false,
+			"persist": true,
+			"head_sampling_rate": 1,
+		},
+	},
+	"vars": {
+		"NEXT_PUBLIC_URL": "https://www.tideemit.net",
+		"TIMEZONE": "Europe/Stockholm",
+		"URL": "https://www.tideemit.net"
+	},
+}

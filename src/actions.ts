@@ -43,7 +43,7 @@ const verifyTurnstile = async (formData: FormData) => {
 			method: "POST",
 		});
 
-		const outcome = await result.json();
+		const outcome = await result.json<{ success: boolean }>();
 		if (!outcome.success) {
 			throw {
 				message: "CAPTCHA misslyckades.",
