@@ -1,7 +1,7 @@
 // TODO: Cache the response if the TimeEdit schedule hasn't change or if the user hasn't changed any settings
 // https://nextjs.org/docs/app/getting-started/route-handlers-and-middleware#caching
 
-import { getCoursesByUserId, getUser } from "@/actions";
+import { getCourses, getUser } from "@/db";
 import axios from "axios";
 import ical from "ical-generator";
 import { DateTime } from "luxon";
@@ -68,7 +68,7 @@ export const GET = async (
 	const map_index = columnheaders.indexOf("Kartlänk");
 	const free_group_index = columnheaders.indexOf("Fria grupper");
 
-	const renamed_courses = await getCoursesByUserId(userId);
+	const renamed_courses = await getCourses(userId);
 
 	const map_renamed = new Map(
 		renamed_courses.map(({ code, name }) => [code, name]),
@@ -91,7 +91,7 @@ export const GET = async (
 		return s.join(" - ");
 	};
 
-	const createDescription = (comment, free_group, exists) => {
+	const createDescription = (course_code, comment, free_group, exists) => {
 		const description = [];
 
 		if (exists == false) {
@@ -99,6 +99,9 @@ export const GET = async (
 				"Den här kursen finns inte inlagd i din TideEmit-profil!",
 			);
 		}
+
+		description.push(`Kurskod: ${course_code}`);
+
 		if (free_group?.length > 0) {
 			description.push(free_group);
 		}
@@ -128,6 +131,7 @@ export const GET = async (
 			summary: createSummary(columns[activity_index], course_name),
 			location: columns[location_index],
 			description: createDescription(
+				course_code,
 				columns[comment_index],
 				columns[free_group_index],
 				exists,

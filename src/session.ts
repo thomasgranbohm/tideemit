@@ -13,7 +13,7 @@ export const encrypt = async (payload: SessionInfo) => {
 	return await new SignJWT(payload)
 		.setProtectedHeader({ alg: "HS256" })
 		.setIssuedAt()
-		.setExpirationTime("10 minutes from now")
+		.setExpirationTime("30 seconds from now")
 		.sign(key);
 };
 
@@ -32,17 +32,19 @@ export const verifySession = cache(async () => {
 		redirect("/");
 	}
 
-	const session = await decrypt(cookie);
+	try {
+		const session = await decrypt(cookie);
 
-	if (!session?.userId) {
+		return {
+			isAuth: true,
+			userId: session.userId,
+			scheduleLink: session.scheduleLink,
+		};
+	} catch (err) {
+		await cookieStore.delete("session");
+
 		redirect("/");
 	}
-
-	return {
-		isAuth: true,
-		userId: session.userId,
-		scheduleLink: session.scheduleLink,
-	};
 });
 
 export const setToken = async ({

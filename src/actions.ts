@@ -6,15 +6,12 @@ import {
 	CourseValidation,
 	TimeEditLinkValidation,
 } from "@/validators";
-import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { v4 } from "uuid";
 import { z } from "zod";
+import * as db from "./db";
 import { setToken, verifySession } from "./session";
-
-const client = new PrismaClient();
 
 export const getCourses = async () => {
 	const session = await verifySession();
@@ -24,7 +21,7 @@ export const getCourses = async () => {
 		return null;
 	}
 
-	return await getCoursesByUserId(session.userId);
+	return db.getCourses(session.userId);
 };
 
 const verifyTurnstile = async (formData: FormData) => {
@@ -76,16 +73,14 @@ export const login = async (_, formData: FormData) => {
 
 	// FIXME: Needs validation error handling
 
-	const user = await client.user.findFirst({
-		where: { userId: parsed.data.userId },
-	});
+	const user = await db.getUser(parsed.data.userId!);
 
 	if (user == null) {
 		return { message: "Kunde inte hitta användaren", errored: true };
 	}
 
 	await setToken({
-		userId: parsed.data.userId,
+		userId: user.userId,
 		scheduleLink: user.scheduleLink,
 	});
 
@@ -99,7 +94,6 @@ export const signup = async (_, formData: FormData) => {
 		return message;
 	}
 
-	const userId = v4();
 	const parsed = z
 		.object({
 			scheduleLink: TimeEditLinkValidation,
@@ -112,12 +106,10 @@ export const signup = async (_, formData: FormData) => {
 		};
 	}
 
-	await client.user.create({
-		data: { scheduleLink: parsed.data.scheduleLink, userId },
-	});
+	const user = await db.createUser(parsed.data.scheduleLink);
 
 	await setToken({
-		userId: userId,
+		userId: user.userId,
 		scheduleLink: parsed.data.scheduleLink,
 	});
 
@@ -145,10 +137,10 @@ export const updateSchedule = async (_, formData: FormData) => {
 	}
 
 	try {
-		const updateUser = await client.user.update({
-			data: { scheduleLink: parsed.data.scheduleLink },
-			where: { userId: session.userId },
-		});
+		const updateUser = await db.updateUser(
+			session.userId,
+			parsed.data.scheduleLink,
+		);
 
 		await setToken(updateUser);
 
@@ -186,9 +178,8 @@ export const createCourse = async (
 		};
 	}
 
-	const coursesCount = await client.course.count({
-		where: { userId: session.userId },
-	});
+	const coursesCount = await db.countCourses(session.userId);
+
 	if (coursesCount >= 10) {
 		return {
 			success: false,
@@ -196,25 +187,14 @@ export const createCourse = async (
 		};
 	}
 
-	await client.course.create({
-		data: {
-			code: parsed.data.code,
-			name: parsed.data.name,
-			userId: session.userId,
-		},
+	await db.createCourse({
+		code: parsed.data.code,
+		name: parsed.data.name,
+		userId: session.userId,
 	});
 
+	revalidatePath("/schedule");
 	return { success: true, message: "Course created successfully!" };
-};
-
-export const getCoursesByUserId = async (userId: string) => {
-	const courses = await client.course.findMany({
-		where: { userId },
-		select: { name: true, code: true },
-		orderBy: { code: "asc" },
-	});
-
-	return courses;
 };
 
 export const deleteCourse = async (formData: FormData) => {
@@ -225,25 +205,7 @@ export const deleteCourse = async (formData: FormData) => {
 
 	const parsed = CodeValidation.safeParse(formData.get("code"));
 
-	const course = await client.course.findFirst({
-		where: { userId: session.userId, code: parsed.data },
-	});
-
-	if (course) {
-		await client.course.delete({ where: { id: course.id } });
-	}
+	await db.deleteCourse(session.userId, parsed.data);
 
 	revalidatePath("/schedule");
-};
-
-export const getUser = async (userId: string) => {
-	const user = await client.user.findFirst({
-		where: { userId },
-	});
-
-	if (user == null) {
-		return null;
-	}
-
-	return user;
 };
