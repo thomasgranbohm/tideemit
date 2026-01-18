@@ -56,7 +56,7 @@ export const GET = async (
 
 	const calendar = ical({
 		name: "TideEmit",
-		prodId: process.env.NEXT_PUBLIC_URL,
+		prodId: process.env.URL,
 	});
 
 	const { columnheaders, reservations } = parsed.data;
