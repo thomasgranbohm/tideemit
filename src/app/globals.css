@@ -16,12 +16,3 @@ we of course apply color-scheme: dark, as usual */
     color-scheme: dark;
   }
 }
-
-/* If the user prefers light mode, 
-we still enforce color-scheme: dark, despite the user preference */
-@media (prefers-color-scheme: light) {
-  html {
-    color-scheme: dark;
-  }
-}
-
