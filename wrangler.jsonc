@@ -3,9 +3,7 @@
 	"name": "tideemit-production",
 	"main": ".open-next/worker.js",
 	"compatibility_date": "2026-01-16",
-	"compatibility_flags": [
-		"nodejs_compat"
-	],
+	"compatibility_flags": ["nodejs_compat"],
 	"assets": {
 		"binding": "ASSETS",
 		"directory": ".open-next/assets",
@@ -34,8 +32,7 @@
 		},
 	},
 	"vars": {
-		"NEXT_PUBLIC_URL": "https://www.tideemit.net",
 		"TIMEZONE": "Europe/Stockholm",
-		"URL": "https://www.tideemit.net"
+		"URL": "https://www.tideemit.net",
 	},
 }
