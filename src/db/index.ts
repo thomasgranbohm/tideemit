@@ -11,6 +11,17 @@ export const getDatabase = cache(async () => {
 	return drizzle(env.DATABASE, { schema });
 });
 
+export const getCache = cache(async () => {
+	const { env } = await getCloudflareContext({ async: true });
+	return env.CACHE;
+});
+
+export const invalidateCache = async (userId: string) => {
+	const c = await getCache();
+
+	await c.delete(userId);
+};
+
 export const createUser = async (scheduleLink: string) => {
 	const db = await getDatabase();
 

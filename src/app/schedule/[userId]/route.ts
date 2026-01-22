@@ -1,7 +1,7 @@
 // TODO: Cache the response if the TimeEdit schedule hasn't change or if the user hasn't changed any settings
 // https://nextjs.org/docs/app/getting-started/route-handlers-and-middleware#caching
 
-import { getCourses, getUser } from "@/db";
+import { getCache, getCourses, getUser } from "@/db";
 import axios from "axios";
 import ical from "ical-generator";
 import { DateTime } from "luxon";
@@ -12,8 +12,23 @@ export const GET = async (
 	{ params }: { params: Promise<{ userId: string }> },
 ) => {
 	const { userId } = await params;
-	const user = await getUser(userId);
+	const isValid = z.uuidv4().safeParse(userId);
 
+	if (!isValid.success) {
+		return new Response(null, { status: 404 });
+	}
+
+	const cache = await getCache();
+	const cacheHit = await cache.get(userId);
+	if (cacheHit) {
+		return new Response(cacheHit, {
+			headers: {
+				"Content-Type": "text/calendar; charset=utf-8",
+			},
+		});
+	}
+
+	const user = await getUser(userId);
 	if (!user || !user.scheduleLink) {
 		return new Response(null, { status: 404 });
 	}
@@ -139,6 +154,10 @@ export const GET = async (
 			url: columns[map_index],
 		});
 	}
+
+	await cache.put(userId, calendar.toString(), {
+		expirationTtl: 60 * 60 * 6, // 6 hours
+	});
 
 	return new Response(calendar.toString(), {
 		headers: {

@@ -17,7 +17,6 @@ export const getCourses = async () => {
 	const session = await verifySession();
 
 	if (!session) {
-		console.log("Get courses no session");
 		return null;
 	}
 
@@ -50,8 +49,6 @@ const verifyTurnstile = async (formData: FormData) => {
 			};
 		}
 	} catch (err) {
-		console.log(err);
-
 		throw {
 			message: "Kunde inte verifiera CAPTCHA.",
 		};
@@ -144,6 +141,8 @@ export const updateSchedule = async (_, formData: FormData) => {
 
 		await setToken(updateUser);
 
+		db.invalidateCache(session.userId);
+
 		revalidatePath("/schedule");
 
 		return { message: "Uppdaterade schemalänken!", success: true };
@@ -193,6 +192,8 @@ export const createCourse = async (
 		userId: session.userId,
 	});
 
+	db.invalidateCache(session.userId);
+
 	revalidatePath("/schedule");
 	return { success: true, message: "Course created successfully!" };
 };
@@ -206,6 +207,8 @@ export const deleteCourse = async (formData: FormData) => {
 	const parsed = CodeValidation.safeParse(formData.get("code"));
 
 	await db.deleteCourse(session.userId, parsed.data);
+
+	db.invalidateCache(session.userId);
 
 	revalidatePath("/schedule");
 };

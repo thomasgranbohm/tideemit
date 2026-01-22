@@ -26,7 +26,7 @@
 			"invocation_logs": true,
 		},
 		"traces": {
-			"enabled": false,
+			"enabled": true,
 			"persist": true,
 			"head_sampling_rate": 1,
 		},
@@ -35,4 +35,10 @@
 		"TIMEZONE": "Europe/Stockholm",
 		"URL": "https://www.tideemit.net",
 	},
+	"kv_namespaces": [
+		{
+			"binding": "CACHE",
+			"id": "8cdea27ec9ea4c7495c98218b0df2112",
+		},
+	],
 }
