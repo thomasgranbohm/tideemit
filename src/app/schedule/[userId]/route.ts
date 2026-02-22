@@ -19,14 +19,14 @@ export const GET = async (
 	}
 
 	const cache = await getCache();
-	const cacheHit = await cache.get(userId);
-	if (cacheHit) {
-		return new Response(cacheHit, {
-			headers: {
-				"Content-Type": "text/calendar; charset=utf-8",
-			},
-		});
-	}
+	// const cacheHit = await cache.get(userId);
+	// if (cacheHit) {
+	// 	return new Response(cacheHit, {
+	// 		headers: {
+	// 			"Content-Type": "text/calendar; charset=utf-8",
+	// 		},
+	// 	});
+	// }
 
 	const user = await getUser(userId);
 	if (!user || !user.scheduleLink) {
