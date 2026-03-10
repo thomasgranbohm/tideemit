@@ -73,9 +73,6 @@ export const GET = async (
 		name: "TideEmit",
 		prodId: process.env.URL,
 		method: ICalCalendarMethod.PUBLISH,
-		x: {
-			"WR-CALNAME": "TideEmit",
-		},
 	});
 
 	const { columnheaders, reservations } = parsed.data;
