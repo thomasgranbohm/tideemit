@@ -3,7 +3,7 @@
 
 import { getCache, getCourses, getUser } from "@/db";
 import axios from "axios";
-import ical from "ical-generator";
+import ical, { ICalCalendarMethod } from "ical-generator";
 import { DateTime } from "luxon";
 import { z } from "zod";
 
@@ -19,14 +19,14 @@ export const GET = async (
 	}
 
 	const cache = await getCache();
-	// const cacheHit = await cache.get(userId);
-	// if (cacheHit) {
-	// 	return new Response(cacheHit, {
-	// 		headers: {
-	// 			"Content-Type": "text/calendar; charset=utf-8",
-	// 		},
-	// 	});
-	// }
+	const cacheHit = await cache.get(userId);
+	if (cacheHit) {
+		return new Response(cacheHit, {
+			headers: {
+				"Content-Type": "text/calendar; charset=utf-8",
+			},
+		});
+	}
 
 	const user = await getUser(userId);
 	if (!user || !user.scheduleLink) {
@@ -72,6 +72,10 @@ export const GET = async (
 	const calendar = ical({
 		name: "TideEmit",
 		prodId: process.env.URL,
+		method: ICalCalendarMethod.PUBLISH,
+		x: {
+			"WR-CALNAME": "TideEmit",
+		},
 	});
 
 	const { columnheaders, reservations } = parsed.data;
