@@ -71,8 +71,13 @@ export const GET = async (
 
 	const calendar = ical({
 		name: "TideEmit",
-		prodId: process.env.URL,
+		prodId: {
+			company: "TideEmit",
+			product: "Calendar",
+			language: "SE",
+		},
 		method: ICalCalendarMethod.PUBLISH,
+		scale: "GREGORIAN",
 	});
 
 	const { columnheaders, reservations } = parsed.data;
@@ -141,7 +146,7 @@ export const GET = async (
 			: course_code;
 
 		calendar.createEvent({
-			id,
+			id: `${id}@tideemit.net`,
 			start: createDate(startdate, starttime),
 			end: createDate(enddate, endtime),
 			summary: createSummary(columns[activity_index], course_name),
